@@ -1,13 +1,50 @@
 package com.ragnarok.connect;
 
+import com.ragnarok.connect.configurations.security.authorities.Authority;
+import com.ragnarok.connect.configurations.security.authorities.repository.AuthorityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.event.EventListener;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class RagnarokApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(RagnarokApplication.class, args);
+		System.out.println("FINISHED LOADING:: RagnarokApplication Running");
 	}
+
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**")
+						.allowedOrigins("http://localhost:3000", "http://localhost:8081")
+						.allowCredentials(true)
+						.allowedMethods("GET", "POST", "PUT", "DELETE");
+			}
+		};
+	}
+
+	@Autowired
+	private AuthorityRepository authorityRepository;
+
+	//setup initial data in db
+	@EventListener(ApplicationReadyEvent.class)
+	public void initializeBasicAuthorities(){
+//		Authority user_auth = new Authority("USER");
+//		Authority premium_auth = new Authority("PREMIUM");
+//
+//		authorityRepository.save(user_auth);
+//		authorityRepository.save(premium_auth);
+	}
+
 
 }

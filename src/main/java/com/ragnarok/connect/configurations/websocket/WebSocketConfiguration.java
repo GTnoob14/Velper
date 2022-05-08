@@ -1,4 +1,4 @@
-package com.gtnoob.chatapp_second.configurations.websocket;
+package com.ragnarok.connect.configurations.websocket;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

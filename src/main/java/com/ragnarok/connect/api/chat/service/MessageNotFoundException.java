@@ -1,5 +1,13 @@
-package com.ragnarok.connect.api.chat.exceptions;
+package com.ragnarok.connect.api.chat.service;
 
-class MessageNotFoundException extends Exception {
-
+public final class MessageNotFoundException extends Exception {
+    MessageNotFoundException(){
+        super();
+    }
+    MessageNotFoundException(String message){
+        super(message);
+    }
+    MessageNotFoundException(String message, Throwable throwable){
+        super(message, throwable);
+    }
 }
