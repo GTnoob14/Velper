@@ -5,14 +5,13 @@ import com.ragnarok.connect.configurations.security.authorities.Authority;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -25,7 +24,7 @@ public class AppUser implements UserDetails {
     @Getter @Setter
     private Long id;
     @Getter @Setter
-    @Column(unique = false, nullable = false)
+    @Column(unique = true, nullable = false)
     private String publicid;
     @Getter @Setter
     @Column(unique = false, nullable = false)
@@ -40,46 +39,50 @@ public class AppUser implements UserDetails {
     @Column(unique = false, nullable = false)
     private String password;
     @Getter @Setter
+    @Column(nullable = false)
     private Integer age;
     @Getter @Setter
+    @Column(nullable = false)
     private String country;
     @Getter @Setter
+    @Column(nullable = false)
     private String city;
     @Getter @Setter
     private String biography;
-    @Getter @Setter
-    @ManyToMany
-    private List<Interest> interests;
+    @Setter
+    @ManyToMany(fetch = FetchType.EAGER)
+    //@LazyCollection(LazyCollectionOption.FALSE)
+    private Set<Interest> interests;
 
     //TODO enable only when email is verified
     @Setter
     @Column(unique = false, nullable = false)
     private boolean enabled;
 
-    @Getter @Setter
+    @Setter @Getter
     //{public_id} of AppUser's registered as friends of this
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="user_friend", joinColumns = @JoinColumn(name="id"))
     @Column(name = "friends_publicid")
-    private List<String> friendList;
+    private Set<String> friendList;
 
     @Setter
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Authority> authorities;
+    private Set<Authority> authorities;
 
     public AppUser(String firstname, String lastname, String email, String password) {
         this(firstname, lastname, email, password, null, null, null);
     }
 
     public AppUser(String firstname, String lastname, String email, String password, Integer age, String country, String city) {
-        this(firstname, lastname, email, password, age, country, city, "", new ArrayList<>());
+        this(firstname, lastname, email, password, age, country, city, "", new HashSet<>());
     }
 
-    public AppUser(String firstname, String lastname, String email, String password, Integer age, String country, String city, String biography, List<Interest> interests) {
-        this(firstname, lastname, email, password, age, country, city, biography, interests, false, new ArrayList<>(), new ArrayList<>());
+    public AppUser(String firstname, String lastname, String email, String password, Integer age, String country, String city, String biography, Set<Interest> interests) {
+        this(firstname, lastname, email, password, age, country, city, biography, interests, false, new HashSet<>(), new HashSet<>());
     }
 
-    public AppUser(String firstname, String lastname, String email, String password, Integer age, String country, String city, String biography, List<Interest> interests, boolean enabled, List<String> friendList, List<Authority> authorities) {
+    public AppUser(String firstname, String lastname, String email, String password, Integer age, String country, String city, String biography, Set<Interest> interests, boolean enabled, Set<String> friendList, Set<Authority> authorities) {
         this.publicid = UUID.randomUUID().toString();
         this.firstname = firstname;
         this.lastname = lastname;
@@ -97,22 +100,25 @@ public class AppUser implements UserDetails {
 
     public void addFriend(String publicid){
         if(friendList == null)
-            friendList = new ArrayList<>();
+            friendList = new HashSet<>();
         this.friendList.add(publicid);
     }
 
     public void removeFriend(String publicid){
         if(friendList == null)
-            friendList = new ArrayList<>();
+            friendList = new HashSet<>();
         this.friendList.remove(publicid);
     }
 
     public AppUserReturnable toReturnable(){
         return new AppUserReturnable(
-                this.publicid, this.firstname, this.lastname, this.email, this.age, this.country, this.city, this.biography, this.interests.stream().map(Interest::getInterest).collect(Collectors.toList()), this.friendList
+                this.publicid, this.firstname, this.lastname, this.email, this.age, this.country, this.city, this.biography, getInterests(), this.friendList
         );
     }
 
+    public Set<Interest> getInterests(){
+        return interests == null ? new HashSet<>() : interests;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

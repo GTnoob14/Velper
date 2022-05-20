@@ -10,7 +10,9 @@ import com.ragnarok.connect.configurations.security.authorities.Authority;
 
 import java.util.ArrayList;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Disabled;
@@ -45,7 +47,7 @@ class AppUserTest {
         assertEquals("jane.doe@example.org", actualAppUser.getUsername());
         assertEquals("iloveyou", actualAppUser.getPassword());
         assertEquals("Doe", actualAppUser.getLastname());
-        List<Interest> interests = actualAppUser.getInterests();
+        Set<Interest> interests = actualAppUser.getInterests();
         assertTrue(interests.isEmpty());
         assertEquals(interests, actualAppUser.getFriendList());
         assertEquals("Jane", actualAppUser.getFirstname());
@@ -66,7 +68,7 @@ class AppUserTest {
         assertEquals("jane.doe@example.org", actualAppUser.getUsername());
         assertEquals("iloveyou", actualAppUser.getPassword());
         assertEquals("Doe", actualAppUser.getLastname());
-        List<Interest> interests = actualAppUser.getInterests();
+        Set<Interest> interests = actualAppUser.getInterests();
         assertTrue(interests.isEmpty());
         assertEquals(interests, actualAppUser.getFriendList());
         assertEquals("Jane", actualAppUser.getFirstname());
@@ -77,18 +79,18 @@ class AppUserTest {
     }
 
     /**
-     * Method under test: {@link AppUser#AppUser(String, String, String, String, Integer, String, String, String, List)}
+     * Method under test: {@link AppUser#AppUser(String, String, String, String, Integer, String, String, String, Set)}
      */
     @Test
     void testConstructor4() {
         AppUser actualAppUser = new AppUser("Jane", "Doe", "jane.doe@example.org", "iloveyou", 1, "GB", "Oxford",
-                "Biography", new ArrayList<>());
+                "Biography", new HashSet<>());
 
         assertEquals(1, actualAppUser.getAge().intValue());
         assertEquals("jane.doe@example.org", actualAppUser.getUsername());
         assertEquals("iloveyou", actualAppUser.getPassword());
         assertEquals("Doe", actualAppUser.getLastname());
-        List<Interest> interests = actualAppUser.getInterests();
+        Set<Interest> interests = actualAppUser.getInterests();
         assertTrue(interests.isEmpty());
         assertEquals(interests, actualAppUser.getFriendList());
         assertEquals("Jane", actualAppUser.getFirstname());
@@ -99,13 +101,13 @@ class AppUserTest {
     }
 
     /**
-     * Method under test: {@link AppUser#AppUser(String, String, String, String, Integer, String, String, String, List, boolean, List, List)}
+     * Method under test: {@link AppUser#AppUser(String, String, String, String, Integer, String, String, String, Set, boolean, Set, Set)}
      */
     @Test
     void testConstructor5() {
-        ArrayList<Interest> interests = new ArrayList<>();
-        ArrayList<String> stringList = new ArrayList<>();
-        ArrayList<Authority> authorityList = new ArrayList<>();
+        HashSet<Interest> interests = new HashSet<>();
+        HashSet<String> stringList = new HashSet<>();
+        HashSet<Authority> authorityList = new HashSet<>();
         AppUser actualAppUser = new AppUser("Jane", "Doe", "jane.doe@example.org", "iloveyou", 1, "GB", "Oxford",
                 "Biography", interests, true, stringList, authorityList);
 
@@ -129,9 +131,9 @@ class AppUserTest {
     void testAddFriend() {
         AppUser appUser = new AppUser();
         appUser.addFriend("Publicid");
-        List<String> friendList = appUser.getFriendList();
+        Set<String> friendList = appUser.getFriendList();
         assertEquals(1, friendList.size());
-        assertEquals("Publicid", friendList.get(0));
+        assertEquals("Publicid", friendList.stream().findFirst().get());
     }
 
     /**
@@ -142,23 +144,23 @@ class AppUserTest {
         AppUser appUser = new AppUser();
         appUser.removeFriend("Publicid");
         appUser.setAge(1);
-        appUser.setAuthorities(new ArrayList<>());
+        appUser.setAuthorities(new HashSet<>());
         appUser.setBiography("Biography");
         appUser.setCity("Oxford");
         appUser.setCountry("GB");
         appUser.setEmail("jane.doe@example.org");
         appUser.setEnabled(true);
         appUser.setFirstname("Jane");
-        appUser.setFriendList(new ArrayList<>());
+        appUser.setFriendList(new HashSet<>());
         appUser.setId(123L);
-        appUser.setInterests(new ArrayList<>());
+        appUser.setInterests(new HashSet<>());
         appUser.setLastname("Doe");
         appUser.setPassword("iloveyou");
         appUser.setPublicid("Publicid");
         appUser.addFriend("foo");
-        List<String> friendList = appUser.getFriendList();
+        Set<String> friendList = appUser.getFriendList();
         assertEquals(1, friendList.size());
-        assertEquals("foo", friendList.get(0));
+        assertEquals("foo", friendList.stream().findFirst().get());
     }
 
     /**
@@ -187,10 +189,10 @@ class AppUserTest {
     @Test
     void testToReturnable() {
         AppUser user = new AppUser(
-                "Jane", "Doe", "jane.doe@example.org", "iloveyou", 1, "GB", "Oxford", "Biography", new ArrayList<>()
+                "Jane", "Doe", "jane.doe@example.org", "iloveyou", 1, "GB", "Oxford", "Biography", new HashSet<>()
         );
 
-        AppUserReturnable actualReturnable = new AppUserReturnable(user.getPublicid(), "Jane", "Doe", "jane.doe@example.org", 1, "GB", "Oxford", "Biography", new ArrayList<>(), new ArrayList<>());
+        AppUserReturnable actualReturnable = new AppUserReturnable(user.getPublicid(), "Jane", "Doe", "jane.doe@example.org", 1, "GB", "Oxford", "Biography", new HashSet<>(), new HashSet<>());
 
         assertThat(user.toReturnable()).isEqualTo(actualReturnable);
     }
@@ -203,7 +205,7 @@ class AppUserTest {
         AppUser appUser = new AppUser();
         appUser.removeFriend("Publicid");
         appUser.setAge(1);
-        ArrayList<Authority> authorityList = new ArrayList<>();
+        HashSet<Authority> authorityList = new HashSet<>();
         appUser.setAuthorities(authorityList);
         appUser.setBiography("Biography");
         appUser.setCity("Oxford");
@@ -211,9 +213,9 @@ class AppUserTest {
         appUser.setEmail("jane.doe@example.org");
         appUser.setEnabled(true);
         appUser.setFirstname("Jane");
-        appUser.setFriendList(new ArrayList<>());
+        appUser.setFriendList(new HashSet<>());
         appUser.setId(123L);
-        appUser.setInterests(new ArrayList<>());
+        appUser.setInterests(new HashSet<>());
         appUser.setLastname("Doe");
         appUser.setPassword("iloveyou");
         appUser.setPublicid("Publicid");
@@ -246,16 +248,16 @@ class AppUserTest {
         AppUser appUser = new AppUser();
         appUser.removeFriend("Publicid");
         appUser.setAge(1);
-        appUser.setAuthorities(new ArrayList<>());
+        appUser.setAuthorities(new HashSet<>());
         appUser.setBiography("Biography");
         appUser.setCity("Oxford");
         appUser.setCountry("GB");
         appUser.setEmail("jane.doe@example.org");
         appUser.setEnabled(true);
         appUser.setFirstname("Jane");
-        appUser.setFriendList(new ArrayList<>());
+        appUser.setFriendList(new HashSet<>());
         appUser.setId(123L);
-        appUser.setInterests(new ArrayList<>());
+        appUser.setInterests(new HashSet<>());
         appUser.setLastname("Doe");
         appUser.setPassword("iloveyou");
         appUser.setPublicid("Publicid");
@@ -270,11 +272,11 @@ class AppUserTest {
         Authority authority = new Authority();
         authority.setName("Authority");
 
-        ArrayList<Authority> authorityList = new ArrayList<>();
+        HashSet<Authority> authorityList = new HashSet<>();
         authorityList.add(authority);
 
         AppUser user = new AppUser(
-                "Jane", "Doe", "jane.doe@example.org", "iloveyou", 1, "GB", "Oxford", "Biography", new ArrayList<>(), false, new ArrayList<>(), authorityList
+                "Jane", "Doe", "jane.doe@example.org", "iloveyou", 1, "GB", "Oxford", "Biography", new HashSet<>(), false, new HashSet<>(), authorityList
         );
 
         SimpleGrantedAuthority auth = new SimpleGrantedAuthority("Authority");

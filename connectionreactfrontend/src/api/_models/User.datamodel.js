@@ -1,0 +1,17 @@
+class UserModel{
+    constructor(public_id, firstname, lastname, password, email, age, country, city, biography, interests, friendIdList){
+        this.public_id = public_id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.password = password;
+        this.email = email;
+        this.age = age;
+        this.country = country;
+        this.city = city;
+        this.biography = biography;
+        this.interests = interests;
+        this.friendIdList = friendIdList;
+    }
+}
+
+export default UserModel;

@@ -1,8 +1,10 @@
 package com.ragnarok.connect.api.user.model;
 
+import com.ragnarok.connect.api.interests.model.Interest;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,7 +20,7 @@ public class AppUserReturnable {
     private String country;
     private String city;
     private String biography;
-    private List<String> interests;
-    private List<String> friendIdList;
+    private Set<Interest> interests;
+    private Set<String> friendIdList;
 
 }

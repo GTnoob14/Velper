@@ -39,15 +39,15 @@ public class AppUserController {
     }
 
     @PreAuthorize("permitAll()")
-    @PostMapping
+    @PostMapping("/add")
     public void signUp(@RequestBody ResourceAppUser resourceAppUser){
         appUserService.createUser(resourceAppUser);
     }
 
     @PutMapping
-    public void updateUser(Principal principal, @RequestBody ResourceAppUser resourceAppUser){
+    public AppUserReturnable updateUser(Principal principal, @RequestBody ResourceAppUser resourceAppUser){
         Long principal_id = ((AppUser) principal).getId();
-        appUserService.updateUser(principal_id, resourceAppUser);
+        return appUserService.updateUser(principal_id, resourceAppUser).toReturnable();
     }
 
     @DeleteMapping

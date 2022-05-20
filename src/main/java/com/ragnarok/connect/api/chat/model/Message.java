@@ -18,7 +18,7 @@ public class Message {
     @Getter
     private Long id;
     @Getter @Setter
-    private String userid;
+    private Long userid;
     @Getter @Setter
     private String friendid;
     @Getter @Setter
@@ -30,11 +30,11 @@ public class Message {
     @Getter @Setter
     private boolean read;
 
-    public Message(String userid, String friendid, String message, LocalDateTime sentAt) {
+    public Message(Long userid, String friendid, String message, LocalDateTime sentAt) {
         this(userid, friendid, message, sentAt, null);
     }
 
-    public Message(String userid, String friendid, String message, LocalDateTime sentAt, LocalDateTime receivedAt) {
+    public Message(Long userid, String friendid, String message, LocalDateTime sentAt, LocalDateTime receivedAt) {
         this.userid = userid;
         this.friendid = friendid;
         this.message = message;
@@ -45,7 +45,7 @@ public class Message {
 
     public MessageReturnable toReturnable(){
         return new MessageReturnable(
-                id, message, sentAt, receivedAt, read
+                id, friendid, message, sentAt, receivedAt, read
         );
     }
 }

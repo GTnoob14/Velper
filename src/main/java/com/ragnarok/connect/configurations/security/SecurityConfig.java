@@ -26,10 +26,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors().and()
-                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/login", "/api/v1/user").and()
+                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/login").and()
                 .httpBasic().disable()
                 .formLogin()
-                    //.loginPage("/login")
+                    .loginPage("/login")
                     .successHandler((req, res, auth) -> {})
                     .failureHandler((req, res, auth) -> {})
                 .and().logout()
@@ -38,11 +38,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().rememberMe().tokenValiditySeconds(30*24*60*60).userDetailsService(appUserService) //30 days (1 Month)
                 .and().userDetailsService(appUserService)
                     .authorizeRequests()
-                    .mvcMatchers( "/login").permitAll()
-                    .mvcMatchers(HttpMethod.POST, "/api/v1/user").permitAll()
+                    .mvcMatchers("/login").permitAll()
+                    .mvcMatchers(HttpMethod.POST, "/api/v1/user/add").permitAll()
                     .anyRequest().authenticated()
-                //.and().exceptionHandling()
-                  //  .defaultAuthenticationEntryPointFor(new Http403ForbiddenEntryPoint(), new AntPathRequestMatcher("/**"))
+                .and().exceptionHandling()
+                    .defaultAuthenticationEntryPointFor(new Http403ForbiddenEntryPoint(), new AntPathRequestMatcher("/**"))
         ;
     }
 

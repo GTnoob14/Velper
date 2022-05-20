@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor @AllArgsConstructor
 public class MessageReturnable {
     private Long id;
+    private String public_id;
     private String message;
     private LocalDateTime sentAt;
     private LocalDateTime receivedAt;

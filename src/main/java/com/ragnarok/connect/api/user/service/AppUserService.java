@@ -12,11 +12,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AppUserService implements UserDetailsService {
 
     @Autowired
@@ -48,6 +50,7 @@ public class AppUserService implements UserDetailsService {
     }
 
     public void createUser(ResourceAppUser resourceAppUser) {
+        System.out.println(resourceAppUser);
         appUserRepository.save(new AppUser(
                 resourceAppUser.getFirstname(),
                 resourceAppUser.getLastname(),
@@ -57,11 +60,11 @@ public class AppUserService implements UserDetailsService {
                 resourceAppUser.getCountry(),
                 resourceAppUser.getCity(),
                 resourceAppUser.getBiography(),
-                resourceAppUser.getInterests() == null ? null : resourceAppUser.getInterests().stream().map(i -> interestService.addInterest(i)).collect(Collectors.toList())
+                resourceAppUser.getInterests() == null ? null : resourceAppUser.getInterests().stream().map(i -> interestService.addInterest(i)).collect(Collectors.toSet())
         ));
     }
 
-    public void updateUser(Long id, ResourceAppUser resourceAppUser) {
+    public AppUser updateUser(Long id, ResourceAppUser resourceAppUser) {
         AppUser user = appUserRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException(id.toString()));
         user.setFirstname(resourceAppUser.getFirstname());
@@ -71,8 +74,8 @@ public class AppUserService implements UserDetailsService {
         user.setCountry(resourceAppUser.getCountry());
         user.setCity(resourceAppUser.getCity());
         user.setBiography(resourceAppUser.getBiography());
-        user.setInterests(resourceAppUser.getInterests().stream().map(i -> interestService.addInterest(i)).collect(Collectors.toList()));
-        appUserRepository.save(user);
+        user.setInterests(resourceAppUser.getInterests().stream().map(i -> interestService.addInterest(i)).collect(Collectors.toSet()));
+        return appUserRepository.save(user);
     }
 
     public void removeUser(Long id) {

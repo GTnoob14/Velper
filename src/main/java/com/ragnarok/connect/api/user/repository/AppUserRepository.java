@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface AppUserRepository extends JpaRepository<AppUser, Long> {
@@ -14,7 +15,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     Optional<AppUser> findByPublicid(String friend);
     List<AppUser> findByCity(String city);
     List<AppUser> findByCountry(String country);
-    List<AppUser> findByInterestsIn(List<Interest> interests);
-    List<AppUser> findByCityAndInterestsIn(String city, List<Interest> interest);
-    List<AppUser> findByCountryAndInterestsIn(String city, List<Interest> interests);
+    List<AppUser> findByInterestsIn(Set<Interest> interests);
+    List<AppUser> findByCityAndInterestsIn(String city, Set<Interest> interest);
+    List<AppUser> findByCountryAndInterestsIn(String city, Set<Interest> interests);
 }

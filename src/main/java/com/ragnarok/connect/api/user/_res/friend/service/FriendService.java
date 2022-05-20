@@ -10,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class FriendService {
 
     @Autowired
@@ -27,7 +29,8 @@ public class FriendService {
         List<AppUser> potentialFriends;
         switch(searchSettings.getScope()){
             case city_scope:
-                potentialFriends = appUserRepository.findByCityAndInterestsIn(user.getCity(), user.getInterests());
+                //potentialFriends = appUserRepository.findByCityAndInterestsIn(user.getCity(), user.getInterests());
+                potentialFriends = appUserRepository.findByCity(user.getCity());
                 break;
             case national_scope:
                 potentialFriends = appUserRepository.findByCountryAndInterestsIn(user.getCountry(), user.getInterests());
@@ -38,8 +41,7 @@ public class FriendService {
             default:
                 throw new IllegalArgumentException(String.format("Scope %s is not defined!", searchSettings.getScope().toString()));
         }
-
-        return potentialFriends.stream().filter(friend -> user.getFriendList().contains(friend.getId())).collect(Collectors.toList());
+        return potentialFriends.stream().filter(friend -> !user.getFriendList().contains(friend.getId()) && user.getPublicid() != friend.getPublicid()).collect(Collectors.toList());
     }
 
     public List<AppUser> getFriends(AppUser user) {

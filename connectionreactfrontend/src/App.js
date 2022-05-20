@@ -1,25 +1,41 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
+import Login from './components/Login';
+import OwnProfilePage from './components/OwnProfilePage';
+import Signup from './components/SignUp';
+import Home from './components/Home';
+
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import ChatPage from './components/ChatPage';
+import FindPage from './components/FindPage';
+
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1520A6',
+      contrastText: '#fff'
+    }
+  },
+});
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <Router>
+          <Routes>
+            <Route path='/' element={<Home key="home_page" />} />
+            <Route path='/signup' element={<Signup key="signup_page" />}/>
+            <Route path='/login' element={<Login key="login_page" />}/>
+            <Route path='/find' element={<FindPage key="find_page" />} />
+            <Route path='/chat' element={<ChatPage key="chat_page" />} />
+            <Route path='/profile' element={<OwnProfilePage key="ownprofilepage_page" />}/>
+          </Routes>
+        </Router>
+      </div>
+    </ThemeProvider>
   );
 }
 
