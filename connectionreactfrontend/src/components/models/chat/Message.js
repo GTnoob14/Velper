@@ -5,7 +5,8 @@ import { deepOrange } from "@mui/material/colors";
 const useStyles = makeStyles((theme) =>
   createStyles({
     messageRow: {
-      display: "flex"
+      display: "flex",
+      justifyContent: "flex-start"
     },
     messageRowRight: {
       display: "flex",
@@ -17,8 +18,9 @@ const useStyles = makeStyles((theme) =>
       marginBottom: "10px",
       padding: "10px",
       backgroundColor: "#A8DDFD",
-      width: "60%",
-      //height: "50px",
+      maxWidth: "60%",
+      minWidth: "20%",
+      wordBreak: "break-word",
       textAlign: "left",
       font: "400 .9em 'Open Sans', sans-serif",
       border: "1px solid #97C6E3",
@@ -52,8 +54,9 @@ const useStyles = makeStyles((theme) =>
       marginBottom: "10px",
       padding: "10px",
       backgroundColor: "#f8e896",
-      width: "60%",
-      //height: "50px",
+      maxWidth: "60%",
+      minWidth: "20%",
+      wordBreak: "break-word",
       textAlign: "left",
       font: "400 .9em 'Open Sans', sans-serif",
       border: "1px solid #dfd087",
@@ -84,15 +87,15 @@ const useStyles = makeStyles((theme) =>
 
     messageContent: {
       padding: 0,
-      margin: 0
+      margin: "0 0 5px 0"
     },
     messageTimeStampRight: {
       position: "absolute",
       fontSize: ".85em",
       fontWeight: "300",
-      marginTop: "10px",
-      bottom: "-3px",
-      right: "5px"
+      bottom: "0px",
+      right: "6px",
+      //paddingTop: "100px",
     },
 
     orange: {
@@ -115,30 +118,22 @@ const useStyles = makeStyles((theme) =>
 
 export const MessageLeft = (props) => {
   const message = props.message ? props.message : "Empty message was delivered";
-  const timestamp = props.timestamp ? props.timestamp.split(':')[0] : "";
-  const displayName = props.displayName ? props.displayName : "Name not found";
+  const timestamp = props.timestamp ? props.timestamp.split('T')[1].substring(0, 5) : "";
   const classes = useStyles();
   return (
-    <>
-      <div className={classes.messageRow}>
-        <div>
-          <div className={classes.displayName}>{displayName}</div>
-          <div className={classes.messageBlue}>
-            <div>
-              <p className={classes.messageContent}>{message}</p>
-            </div>
-            <div className={classes.messageTimeStampRight}>{timestamp}</div>
-          </div>
-        </div>
+    <div className={classes.messageRow}>
+      <div className={classes.messageBlue}>
+        <p className={classes.messageContent}>{message}</p>
+        <div className={classes.messageTimeStampRight}>{timestamp}</div>
       </div>
-    </>
+    </div>
   );
 };
 
 export const MessageRight = (props) => {
   const classes = useStyles();
   const message = props.message ? props.message : "Empty message was delivered";
-  const timestamp = props.timestamp ? props.timestamp.split(':')[0] : "";
+  const timestamp = props.timestamp ? props.timestamp.split('T')[1].substring(0, 5) : "";
   return (
     <div className={classes.messageRowRight}>
       <div className={classes.messageOrange}>
@@ -150,5 +145,5 @@ export const MessageRight = (props) => {
 };
 
 
-//props(message: MessageModel, onEdit: Function, onDelete: Function)
+//TODO props(message: MessageModel, onEdit: Function, onDelete: Function)
 

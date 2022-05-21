@@ -10,4 +10,5 @@ import java.util.List;
 public interface ChatRepository extends JpaRepository<Message, Long> {
 
     List<Message> findByUseridAndFriendid(Long id, String friend_id);
+    
 }

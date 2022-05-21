@@ -50,7 +50,6 @@ public class AppUserService implements UserDetailsService {
     }
 
     public void createUser(ResourceAppUser resourceAppUser) {
-        System.out.println(resourceAppUser);
         appUserRepository.save(new AppUser(
                 resourceAppUser.getFirstname(),
                 resourceAppUser.getLastname(),

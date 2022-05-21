@@ -37,7 +37,12 @@ function ChatFriends(props) {
 
   const container = window !== undefined ? () => window().document.body : undefined;
 
-  return (
+
+  return props.friend === undefined ? (
+    <h1>
+      Go to the 'find' Tab to find some friends you can chat to!
+    </h1>
+  ) : (
     <Box sx={{ display: 'flex'
      }}>
       <CssBaseline />
@@ -103,6 +108,8 @@ function ChatFriends(props) {
             position: 'absolute',
             left: { xs: 0, sm: drawerWidth },
             right: 0,
+            top: 0,
+            bottom: 0
         }}
       >
         <div style={{
@@ -116,6 +123,7 @@ function ChatFriends(props) {
 
           <Chat
             messages={props.messages}
+            friend_id={props.friend.public_id}
             style={{
               minHeight: '100%'
             }}

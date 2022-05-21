@@ -1,7 +1,6 @@
 import React from "react";
 import { createStyles, makeStyles } from "@mui/styles";
 import { Paper } from "@mui/material";
-import TextInput from "./TextInput.js";
 import { MessageLeft, MessageRight } from "./Message";
 
 const useStyles = makeStyles((theme) =>
@@ -35,7 +34,8 @@ const useStyles = makeStyles((theme) =>
       width: "calc( 100% - 20px )",
       margin: 10,
       overflowY: "auto",
-      height: "calc( 100% - 80px )"
+      height: "calc( 100% - 80px )",
+      padding: '10px'
     }
   })
 );
@@ -46,7 +46,7 @@ export default function Chat(props) {
         <Paper id="style-1" className={classes.messagesBody}>
         {
           props.messages.map(message => {
-            if(message.public_id === props.friend_id){
+            if(message.public_id !== props.friend_id){
               return (
                 <MessageLeft
                   key={message.id}
