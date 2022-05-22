@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,9 @@ public class InterestService {
     @Autowired
     private final InterestRepository interestRepository;
 
+    public Optional<Interest> findInterestByName(String interest){
+        return interestRepository.findByInterest(interest);
+    }
 
     public List<Interest> getInterests(){
         return interestRepository.findAll();

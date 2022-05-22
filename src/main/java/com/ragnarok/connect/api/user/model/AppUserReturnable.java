@@ -3,7 +3,6 @@ package com.ragnarok.connect.api.user.model;
 import com.ragnarok.connect.api.interests.model.Interest;
 import lombok.*;
 
-import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor

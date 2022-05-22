@@ -16,7 +16,7 @@ class Signup extends React.Component{
       country: '',
       city: '',
       biography: '',
-      interests: null,
+      interests: new Set(),
     }
   }
 
@@ -59,7 +59,7 @@ class Signup extends React.Component{
       this.state.country,
       this.state.city,
       this.state.biography,
-      this.state.interests
+      [...this.state.interests]
     );
 
     UserRequests.signUp(userModel).then(() => {
@@ -67,7 +67,6 @@ class Signup extends React.Component{
     }).catch(err => {
       console.log(err);
       alert('Something went wrong!')
-      window.location.href = '/signUp';
     });
   }
 

@@ -59,7 +59,7 @@ public class AppUserService implements UserDetailsService {
                 resourceAppUser.getCountry(),
                 resourceAppUser.getCity(),
                 resourceAppUser.getBiography(),
-                resourceAppUser.getInterests() == null ? null : resourceAppUser.getInterests().stream().map(i -> interestService.addInterest(i)).collect(Collectors.toSet())
+                resourceAppUser.getInterests() == null ? null : resourceAppUser.getInterests().stream().map(i -> interestService.findInterestByName(i).orElse(interestService.addInterest(i))).collect(Collectors.toSet())
         ));
     }
 

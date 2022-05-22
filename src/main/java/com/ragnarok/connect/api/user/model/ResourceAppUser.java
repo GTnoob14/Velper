@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor @AllArgsConstructor
@@ -18,5 +18,5 @@ public class ResourceAppUser {
     private String country;
     private String city;
     private String biography;
-    private List<String> interests;
+    private Set<String> interests;
 }

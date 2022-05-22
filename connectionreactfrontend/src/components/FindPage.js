@@ -26,7 +26,6 @@ class FindPage extends Component {
         FriendRequests.addFriend(public_id).then(res => {
             console.log(`Added friend ${public_id} ${res}`);
         })
-        //post to /user/friends with public_id
     }
 
   render() {
@@ -50,7 +49,7 @@ class FindPage extends Component {
              country={friend.country}
              city={friend.city}
              biography={friend.biography}
-             interests={friend.interersts}
+             interests={friend.interests}
 
              addToFriends={this.addToFriends}
              next={this.next}

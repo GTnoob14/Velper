@@ -29,8 +29,8 @@ public class FriendService {
         List<AppUser> potentialFriends;
         switch(searchSettings.getScope()){
             case city_scope:
-                //potentialFriends = appUserRepository.findByCityAndInterestsIn(user.getCity(), user.getInterests());
-                potentialFriends = appUserRepository.findByCity(user.getCity());
+                potentialFriends = appUserRepository.findByCityAndInterestsIn(user.getCity(), user.getInterests());
+                //potentialFriends = appUserRepository.findByCity(user.getCity());
                 break;
             case national_scope:
                 potentialFriends = appUserRepository.findByCountryAndInterestsIn(user.getCountry(), user.getInterests());
@@ -41,7 +41,7 @@ public class FriendService {
             default:
                 throw new IllegalArgumentException(String.format("Scope %s is not defined!", searchSettings.getScope().toString()));
         }
-        return potentialFriends.stream().filter(friend -> !user.getFriendList().contains(friend.getId()) && user.getPublicid() != friend.getPublicid()).collect(Collectors.toList());
+        return potentialFriends.stream().filter(friend -> !user.getFriendList().contains(friend.getPublicid()) && user.getPublicid() != friend.getPublicid()).collect(Collectors.toList());
     }
 
     public List<AppUser> getFriends(AppUser user) {

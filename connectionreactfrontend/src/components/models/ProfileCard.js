@@ -2,7 +2,7 @@ import React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import { Box, Button, CardActionArea, CardActions, Chip } from '@mui/material';
 
 function ProfileCard(props) {
   return (
@@ -18,10 +18,17 @@ function ProfileCard(props) {
           <Typography variant="body1" color="text.primary">
             { props.biography }
           </Typography>
+          <Box>
+            {[...props.interests].map(interest => {
+              return (
+                <Chip key={interest.id} style={{margin: '5px'}} label={interest.interest} variant="outlined" />
+              )
+            })}
+          </Box>
         </CardContent>
       </CardActionArea>
       <CardActions style={{justifyContent: 'center'}}>
-        <Button size="small" color="primary" variant='contained' onClick={() => props.addToFriends(props.public_id)}>
+        <Button size="small" color="primary" variant='contained' onClick={() => {props.addToFriends(props.public_id); props.next()}}>
             Add
         </Button>
         <Button size="small" color="error" variant='contained' onClick={props.next}>

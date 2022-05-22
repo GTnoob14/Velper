@@ -1,6 +1,8 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { Chip, IconButton } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
 const style = {
     '': ''
@@ -11,6 +13,8 @@ const textFieldStyle = {
 };
 
 const Form = (props) => {
+
+  const [currentInterest, setCurrentInterest] = React.useState('');
 
   return (
     <div style={style}>
@@ -83,7 +87,40 @@ const Form = (props) => {
         value={props.biography}
         onChange={e => props.updateBiography(e.target.value)}
         style={textFieldStyle}
+      /><br />
+      <TextField
+        label="Interest"
+        variant="filled"
+        type="text"
+        value={currentInterest}
+        onChange={e => setCurrentInterest(e.target.value)}
+        style={textFieldStyle}
+        onSubmit={() => {
+          props.updateInterests(new Set([...props.interests, currentInterest]))
+          setCurrentInterest('');
+        }}
       />
+      <IconButton 
+        //TODO add style
+        aria-label="add interest"
+        color="primary"
+        onClick={() => {
+          props.updateInterests(new Set([...props.interests, currentInterest]))
+          setCurrentInterest('');
+        }}
+      >
+        <AddIcon  />
+      </IconButton>
+      <br />
+      {
+        [...props.interests].map(i => {
+          return (
+            <Chip key={i} style={{margin: '5px'}} label={i} variant="outlined" onDelete={() => {
+              props.updateInterests(new Set([...props.interests].filter(interest => interest !== i)));
+            }} />
+          )
+        })
+      }
       <div>
         <Button 
           variant="contained"
