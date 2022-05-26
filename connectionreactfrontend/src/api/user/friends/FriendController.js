@@ -11,6 +11,7 @@ function convertToUsermodelList(data){
                 e.email,
                 e.age,
                 e.country,
+                e.state,
                 e.city,
                 e.biography,
                 e.interests,

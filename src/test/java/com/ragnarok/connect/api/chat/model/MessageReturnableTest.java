@@ -61,7 +61,7 @@ class MessageReturnableTest {
      * Methods under test:
      *
      * <ul>
-     *   <li>{@link MessageReturnable#MessageReturnable(Long, String, LocalDateTime, LocalDateTime, boolean)}
+     *   <li>{@link MessageReturnable#MessageReturnable(Long, String, String, LocalDateTime, LocalDateTime, boolean)}
      *   <li>{@link MessageReturnable#setId(Long)}
      *   <li>{@link MessageReturnable#setMessage(String)}
      *   <li>{@link MessageReturnable#setRead(boolean)}
@@ -72,7 +72,7 @@ class MessageReturnableTest {
     @Test
     void testConstructor2() {
         LocalDateTime sentAt = LocalDateTime.of(1, 1, 1, 1, 1);
-        MessageReturnable actualMessageReturnable = new MessageReturnable(123L, "Not all who wander are lost", sentAt,
+        MessageReturnable actualMessageReturnable = new MessageReturnable(123L, "publicid", "Not all who wander are lost", sentAt,
                 LocalDateTime.of(1, 1, 1, 1, 1), true);
         actualMessageReturnable.setId(123L);
         actualMessageReturnable.setMessage("Not all who wander are lost");
@@ -83,6 +83,7 @@ class MessageReturnableTest {
         actualMessageReturnable.setSentAt(ofResult1);
         assertEquals(123L, actualMessageReturnable.getId().longValue());
         assertEquals("Not all who wander are lost", actualMessageReturnable.getMessage());
+        assertEquals("publicid", actualMessageReturnable.getPublic_id());
         assertSame(ofResult, actualMessageReturnable.getReceivedAt());
         assertSame(ofResult1, actualMessageReturnable.getSentAt());
         assertTrue(actualMessageReturnable.isRead());
@@ -126,7 +127,7 @@ class MessageReturnableTest {
     @Test
     void testEquals4() {
         LocalDateTime sentAt = LocalDateTime.of(1, 1, 1, 1, 1);
-        MessageReturnable messageReturnable = new MessageReturnable(123L, "Not all who wander are lost", sentAt,
+        MessageReturnable messageReturnable = new MessageReturnable(123L, "publicid", "Not all who wander are lost", sentAt,
                 LocalDateTime.of(1, 1, 1, 1, 1), true);
         assertNotEquals(messageReturnable, new MessageReturnable());
     }
@@ -177,10 +178,10 @@ class MessageReturnableTest {
     @Test
     void testEquals9() {
         LocalDateTime sentAt = LocalDateTime.of(1, 1, 1, 1, 1);
-        MessageReturnable messageReturnable = new MessageReturnable(123L, "Not all who wander are lost", sentAt,
+        MessageReturnable messageReturnable = new MessageReturnable(123L, "publicid", "Not all who wander are lost", sentAt,
                 LocalDateTime.of(1, 1, 1, 1, 1), true);
         LocalDateTime sentAt1 = LocalDateTime.of(1, 1, 1, 1, 1);
-        MessageReturnable messageReturnable1 = new MessageReturnable(123L, "Not all who wander are lost", sentAt1,
+        MessageReturnable messageReturnable1 = new MessageReturnable(123L, "publicid", "Not all who wander are lost", sentAt1,
                 LocalDateTime.of(1, 1, 1, 1, 1), true);
 
         assertEquals(messageReturnable, messageReturnable1);

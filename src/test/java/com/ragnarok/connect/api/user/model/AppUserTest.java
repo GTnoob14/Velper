@@ -3,22 +3,18 @@ package com.ragnarok.connect.api.user.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.ragnarok.connect.api.interests.model.Interest;
 import com.ragnarok.connect.configurations.security.authorities.Authority;
 
-import java.util.ArrayList;
-
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Disabled;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 class AppUserTest {
     /**
@@ -44,84 +40,84 @@ class AppUserTest {
         AppUser actualAppUser = new AppUser("Jane", "Doe", "jane.doe@example.org", "iloveyou");
 
         assertNull(actualAppUser.getAge());
-        assertEquals("jane.doe@example.org", actualAppUser.getUsername());
-        assertEquals("iloveyou", actualAppUser.getPassword());
-        assertEquals("Doe", actualAppUser.getLastname());
-        Set<Interest> interests = actualAppUser.getInterests();
-        assertTrue(interests.isEmpty());
-        assertEquals(interests, actualAppUser.getFriendList());
-        assertEquals("Jane", actualAppUser.getFirstname());
-        assertNull(actualAppUser.getCountry());
-        assertNull(actualAppUser.getCity());
-        assertEquals("", actualAppUser.getBiography());
         assertTrue(actualAppUser.getAuthorities().isEmpty());
+        assertNull(actualAppUser.getCity());
+        assertTrue(actualAppUser.getInterests().isEmpty());
+        assertNull(actualAppUser.getCountry());
+        assertEquals("Doe", actualAppUser.getLastname());
+        assertEquals("iloveyou", actualAppUser.getPassword());
+        assertEquals("", actualAppUser.getBiography());
+        assertEquals("Jane", actualAppUser.getFirstname());
+        assertNull(actualAppUser.getState());
+        assertTrue(actualAppUser.getFriendList().isEmpty());
+        assertEquals("jane.doe@example.org", actualAppUser.getUsername());
     }
 
     /**
-     * Method under test: {@link AppUser#AppUser(String, String, String, String, Integer, String, String)}
+     * Method under test: {@link AppUser#AppUser(String, String, String, String, Integer, String, String, String)}
      */
     @Test
     void testConstructor3() {
-        AppUser actualAppUser = new AppUser("Jane", "Doe", "jane.doe@example.org", "iloveyou", 1, "GB", "Oxford");
+        AppUser actualAppUser = new AppUser("Jane", "Doe", "jane.doe@example.org", "iloveyou", 1, "GB", "MD", "Oxford");
 
         assertEquals(1, actualAppUser.getAge().intValue());
-        assertEquals("jane.doe@example.org", actualAppUser.getUsername());
-        assertEquals("iloveyou", actualAppUser.getPassword());
-        assertEquals("Doe", actualAppUser.getLastname());
-        Set<Interest> interests = actualAppUser.getInterests();
-        assertTrue(interests.isEmpty());
-        assertEquals(interests, actualAppUser.getFriendList());
-        assertEquals("Jane", actualAppUser.getFirstname());
-        assertEquals("GB", actualAppUser.getCountry());
-        assertEquals("Oxford", actualAppUser.getCity());
-        assertEquals("", actualAppUser.getBiography());
         assertTrue(actualAppUser.getAuthorities().isEmpty());
+        assertEquals("MD", actualAppUser.getCity());
+        assertTrue(actualAppUser.getInterests().isEmpty());
+        assertEquals("GB", actualAppUser.getCountry());
+        assertEquals("Doe", actualAppUser.getLastname());
+        assertEquals("iloveyou", actualAppUser.getPassword());
+        assertEquals("", actualAppUser.getBiography());
+        assertEquals("Jane", actualAppUser.getFirstname());
+        assertEquals("Oxford", actualAppUser.getState());
+        assertTrue(actualAppUser.getFriendList().isEmpty());
+        assertEquals("jane.doe@example.org", actualAppUser.getUsername());
     }
 
     /**
-     * Method under test: {@link AppUser#AppUser(String, String, String, String, Integer, String, String, String, Set)}
+     * Method under test: {@link AppUser#AppUser(String, String, String, String, Integer, String, String, String, String, Set)}
      */
     @Test
     void testConstructor4() {
-        AppUser actualAppUser = new AppUser("Jane", "Doe", "jane.doe@example.org", "iloveyou", 1, "GB", "Oxford",
+        AppUser actualAppUser = new AppUser("Jane", "Doe", "jane.doe@example.org", "iloveyou", 1, "GB", "MD", "Oxford",
                 "Biography", new HashSet<>());
 
         assertEquals(1, actualAppUser.getAge().intValue());
-        assertEquals("jane.doe@example.org", actualAppUser.getUsername());
-        assertEquals("iloveyou", actualAppUser.getPassword());
-        assertEquals("Doe", actualAppUser.getLastname());
-        Set<Interest> interests = actualAppUser.getInterests();
-        assertTrue(interests.isEmpty());
-        assertEquals(interests, actualAppUser.getFriendList());
-        assertEquals("Jane", actualAppUser.getFirstname());
-        assertEquals("GB", actualAppUser.getCountry());
-        assertEquals("Oxford", actualAppUser.getCity());
-        assertEquals("Biography", actualAppUser.getBiography());
         assertTrue(actualAppUser.getAuthorities().isEmpty());
+        assertEquals("Oxford", actualAppUser.getCity());
+        assertTrue(actualAppUser.getInterests().isEmpty());
+        assertEquals("GB", actualAppUser.getCountry());
+        assertEquals("Doe", actualAppUser.getLastname());
+        assertEquals("iloveyou", actualAppUser.getPassword());
+        assertEquals("Biography", actualAppUser.getBiography());
+        assertEquals("Jane", actualAppUser.getFirstname());
+        assertEquals("MD", actualAppUser.getState());
+        assertTrue(actualAppUser.getFriendList().isEmpty());
+        assertEquals("jane.doe@example.org", actualAppUser.getUsername());
     }
 
     /**
-     * Method under test: {@link AppUser#AppUser(String, String, String, String, Integer, String, String, String, Set, boolean, Set, Set)}
+     * Method under test: {@link AppUser#AppUser(String, String, String, String, Integer, String, String, String, String, Set, boolean, Set, Set)}
      */
     @Test
     void testConstructor5() {
         HashSet<Interest> interests = new HashSet<>();
-        HashSet<String> stringList = new HashSet<>();
-        HashSet<Authority> authorityList = new HashSet<>();
-        AppUser actualAppUser = new AppUser("Jane", "Doe", "jane.doe@example.org", "iloveyou", 1, "GB", "Oxford",
-                "Biography", interests, true, stringList, authorityList);
+        HashSet<String> friendList = new HashSet<>();
+        AppUser actualAppUser = new AppUser("Jane", "Doe", "jane.doe@example.org", "iloveyou", 1, "GB", "MD", "Oxford",
+                "Biography", interests, true, friendList, new HashSet<>());
 
         assertEquals(1, actualAppUser.getAge().intValue());
-        assertEquals("jane.doe@example.org", actualAppUser.getUsername());
-        assertEquals("iloveyou", actualAppUser.getPassword());
-        assertEquals("Doe", actualAppUser.getLastname());
-        assertEquals(stringList, actualAppUser.getInterests());
-        assertEquals(authorityList, actualAppUser.getFriendList());
-        assertEquals("Jane", actualAppUser.getFirstname());
-        assertEquals("GB", actualAppUser.getCountry());
-        assertEquals("Oxford", actualAppUser.getCity());
-        assertEquals("Biography", actualAppUser.getBiography());
         assertTrue(actualAppUser.getAuthorities().isEmpty());
+        assertEquals("Oxford", actualAppUser.getCity());
+        assertTrue(actualAppUser.getInterests().isEmpty());
+        assertEquals("GB", actualAppUser.getCountry());
+        assertEquals("Doe", actualAppUser.getLastname());
+        assertEquals("iloveyou", actualAppUser.getPassword());
+        assertEquals("Biography", actualAppUser.getBiography());
+        assertEquals("Jane", actualAppUser.getFirstname());
+        assertEquals("MD", actualAppUser.getState());
+        assertTrue(actualAppUser.getFriendList().isEmpty());
+        assertEquals("jane.doe@example.org", actualAppUser.getUsername());
     }
 
     /**
@@ -131,9 +127,7 @@ class AppUserTest {
     void testAddFriend() {
         AppUser appUser = new AppUser();
         appUser.addFriend("Publicid");
-        Set<String> friendList = appUser.getFriendList();
-        assertEquals(1, friendList.size());
-        assertEquals("Publicid", friendList.stream().findFirst().get());
+        assertEquals(1, appUser.getFriendList().size());
     }
 
     /**
@@ -157,10 +151,9 @@ class AppUserTest {
         appUser.setLastname("Doe");
         appUser.setPassword("iloveyou");
         appUser.setPublicid("Publicid");
+        appUser.setState("MD");
         appUser.addFriend("foo");
-        Set<String> friendList = appUser.getFriendList();
-        assertEquals(1, friendList.size());
-        assertEquals("foo", friendList.stream().findFirst().get());
+        assertEquals(1, appUser.getFriendList().size());
     }
 
     /**
@@ -188,13 +181,18 @@ class AppUserTest {
      */
     @Test
     void testToReturnable() {
-        AppUser user = new AppUser(
-                "Jane", "Doe", "jane.doe@example.org", "iloveyou", 1, "GB", "Oxford", "Biography", new HashSet<>()
-        );
-
-        AppUserReturnable actualReturnable = new AppUserReturnable(user.getPublicid(), "Jane", "Doe", "jane.doe@example.org", 1, "GB", "Oxford", "Biography", new HashSet<>(), new HashSet<>());
-
-        assertThat(user.toReturnable()).isEqualTo(actualReturnable);
+        AppUserReturnable actualToReturnableResult = (new AppUser()).toReturnable();
+        assertNull(actualToReturnableResult.getAge());
+        assertNull(actualToReturnableResult.getState());
+        assertNull(actualToReturnableResult.getPublic_id());
+        assertNull(actualToReturnableResult.getLastname());
+        assertTrue(actualToReturnableResult.getInterests().isEmpty());
+        assertNull(actualToReturnableResult.getFriendIdList());
+        assertNull(actualToReturnableResult.getFirstname());
+        assertNull(actualToReturnableResult.getEmail());
+        assertNull(actualToReturnableResult.getCountry());
+        assertNull(actualToReturnableResult.getCity());
+        assertNull(actualToReturnableResult.getBiography());
     }
 
     /**
@@ -205,8 +203,7 @@ class AppUserTest {
         AppUser appUser = new AppUser();
         appUser.removeFriend("Publicid");
         appUser.setAge(1);
-        HashSet<Authority> authorityList = new HashSet<>();
-        appUser.setAuthorities(authorityList);
+        appUser.setAuthorities(new HashSet<>());
         appUser.setBiography("Biography");
         appUser.setCity("Oxford");
         appUser.setCountry("GB");
@@ -219,17 +216,55 @@ class AppUserTest {
         appUser.setLastname("Doe");
         appUser.setPassword("iloveyou");
         appUser.setPublicid("Publicid");
+        appUser.setState("MD");
         AppUserReturnable actualToReturnableResult = appUser.toReturnable();
         assertEquals(1, actualToReturnableResult.getAge().intValue());
+        assertEquals("MD", actualToReturnableResult.getState());
         assertEquals("Publicid", actualToReturnableResult.getPublic_id());
         assertEquals("Doe", actualToReturnableResult.getLastname());
-        assertEquals(authorityList, actualToReturnableResult.getInterests());
-        assertEquals(authorityList, actualToReturnableResult.getFriendIdList());
+        assertTrue(actualToReturnableResult.getInterests().isEmpty());
+        assertTrue(actualToReturnableResult.getFriendIdList().isEmpty());
         assertEquals("Jane", actualToReturnableResult.getFirstname());
         assertEquals("jane.doe@example.org", actualToReturnableResult.getEmail());
         assertEquals("GB", actualToReturnableResult.getCountry());
         assertEquals("Oxford", actualToReturnableResult.getCity());
         assertEquals("Biography", actualToReturnableResult.getBiography());
+    }
+
+    /**
+     * Method under test: {@link AppUser#getInterests()}
+     */
+    @Test
+    void testGetInterests() {
+        assertTrue((new AppUser()).getInterests().isEmpty());
+    }
+
+    /**
+     * Method under test: {@link AppUser#getInterests()}
+     */
+    @Test
+    void testGetInterests2() {
+        AppUser appUser = new AppUser();
+        appUser.removeFriend("Publicid");
+        appUser.setAge(1);
+        appUser.setAuthorities(new HashSet<>());
+        appUser.setBiography("Biography");
+        appUser.setCity("Oxford");
+        appUser.setCountry("GB");
+        appUser.setEmail("jane.doe@example.org");
+        appUser.setEnabled(true);
+        appUser.setFirstname("Jane");
+        appUser.setFriendList(new HashSet<>());
+        appUser.setId(123L);
+        HashSet<Interest> interestSet = new HashSet<>();
+        appUser.setInterests(interestSet);
+        appUser.setLastname("Doe");
+        appUser.setPassword("iloveyou");
+        appUser.setPublicid("Publicid");
+        appUser.setState("MD");
+        Set<Interest> actualInterests = appUser.getInterests();
+        assertSame(interestSet, actualInterests);
+        assertTrue(actualInterests.isEmpty());
     }
 
     /**
@@ -261,6 +296,7 @@ class AppUserTest {
         appUser.setLastname("Doe");
         appUser.setPassword("iloveyou");
         appUser.setPublicid("Publicid");
+        appUser.setState("MD");
         assertTrue(appUser.getAuthorities().isEmpty());
     }
 
@@ -269,19 +305,31 @@ class AppUserTest {
      */
     @Test
     void testGetAuthorities3() {
+
         Authority authority = new Authority();
-        authority.setName("Authority");
+        authority.setName("admin");
 
-        HashSet<Authority> authorityList = new HashSet<>();
-        authorityList.add(authority);
+        HashSet<Authority> authoritySet = new HashSet<>();
+        authoritySet.add(authority);
 
-        AppUser user = new AppUser(
-                "Jane", "Doe", "jane.doe@example.org", "iloveyou", 1, "GB", "Oxford", "Biography", new HashSet<>(), false, new HashSet<>(), authorityList
-        );
+        AppUser appUser = new AppUser();
+        appUser.setAge(1);
+        appUser.setAuthorities(authoritySet);
+        appUser.setBiography("Biography");
+        appUser.setCity("Oxford");
+        appUser.setCountry("GB");
+        appUser.setEmail("jane.doe@example.org");
+        appUser.setEnabled(true);
+        appUser.setFirstname("Jane");
+        appUser.setFriendList(new HashSet<>());
+        appUser.setId(123L);
+        appUser.setInterests(new HashSet<>());
+        appUser.setLastname("Doe");
+        appUser.setPassword("iloveyou");
+        appUser.setPublicid("Publicid");
+        appUser.setState("MD");
 
-        SimpleGrantedAuthority auth = new SimpleGrantedAuthority("Authority");
-
-        assertThat(user.getAuthorities().stream().collect(Collectors.toList())).isEqualTo(List.of(auth));
+        assertThat(appUser.getAuthorities()).isEqualTo(authoritySet);
     }
 }
 

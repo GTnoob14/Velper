@@ -11,12 +11,12 @@ import org.junit.jupiter.api.Test;
 
 class MessageTest {
     /**
-     * Method under test: {@link Message#Message(String, String, String, LocalDateTime)}
+     * Method under test: {@link Message#Message(Long, String, String, LocalDateTime)}
      */
     @Test
     void testConstructor() {
         LocalDateTime ofResult = LocalDateTime.of(1, 1, 1, 1, 1);
-        Message actualMessage = new Message("Userid", "Friendid", "Not all who wander are lost", ofResult);
+        Message actualMessage = new Message(1L, "Friendid", "Not all who wander are lost", ofResult);
 
         assertEquals("Friendid", actualMessage.getFriendid());
         assertFalse(actualMessage.isRead());
@@ -37,13 +37,13 @@ class MessageTest {
     }
 
     /**
-     * Method under test: {@link Message#Message(String, String, String, LocalDateTime, LocalDateTime)}
+     * Method under test: {@link Message#Message(Long, String, String, LocalDateTime, LocalDateTime)}
      */
     @Test
     void testConstructor2() {
         LocalDateTime ofResult = LocalDateTime.of(1, 1, 1, 1, 1);
         LocalDateTime ofResult1 = LocalDateTime.of(1, 1, 1, 1, 1);
-        Message actualMessage = new Message("Userid", "Friendid", "Not all who wander are lost", ofResult, ofResult1);
+        Message actualMessage = new Message(1L, "Friendid", "Not all who wander are lost", ofResult, ofResult1);
 
         assertEquals("Friendid", actualMessage.getFriendid());
         assertFalse(actualMessage.isRead());
@@ -57,7 +57,7 @@ class MessageTest {
         assertEquals("01:01", receivedAt.toLocalTime().toString());
         assertEquals("0001-01-01", sentAt.toLocalDate().toString());
         assertEquals("Not all who wander are lost", actualMessage.getMessage());
-        assertEquals("Userid", actualMessage.getUserid());
+        assertEquals(1L, actualMessage.getUserid());
         MessageReturnable toReturnableResult = actualMessage.toReturnable();
         assertEquals("Not all who wander are lost", toReturnableResult.getMessage());
         assertSame(ofResult, toReturnableResult.getSentAt());

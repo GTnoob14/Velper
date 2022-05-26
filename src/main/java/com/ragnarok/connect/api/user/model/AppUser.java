@@ -5,8 +5,6 @@ import com.ragnarok.connect.configurations.security.authorities.Authority;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -39,13 +37,13 @@ public class AppUser implements UserDetails {
     @Column(unique = false, nullable = false)
     private String password;
     @Getter @Setter
-    @Column(nullable = false)
+    @Column(unique = false, nullable = false)
     private Integer age;
     @Getter @Setter
-    @Column(nullable = false)
     private String country;
     @Getter @Setter
-    @Column(nullable = false)
+    private String state;
+    @Getter @Setter
     private String city;
     @Getter @Setter
     private String biography;
@@ -71,18 +69,18 @@ public class AppUser implements UserDetails {
     private Set<Authority> authorities;
 
     public AppUser(String firstname, String lastname, String email, String password) {
-        this(firstname, lastname, email, password, null, null, null);
+        this(firstname, lastname, email, password, null, null, null, null);
     }
 
-    public AppUser(String firstname, String lastname, String email, String password, Integer age, String country, String city) {
-        this(firstname, lastname, email, password, age, country, city, "", new HashSet<>());
+    public AppUser(String firstname, String lastname, String email, String password, Integer age, String country, String state, String city) {
+        this(firstname, lastname, email, password, age, country, city, state, "", new HashSet<>());
     }
 
-    public AppUser(String firstname, String lastname, String email, String password, Integer age, String country, String city, String biography, Set<Interest> interests) {
-        this(firstname, lastname, email, password, age, country, city, biography, interests, false, new HashSet<>(), new HashSet<>());
+    public AppUser(String firstname, String lastname, String email, String password, Integer age, String country, String state, String city, String biography, Set<Interest> interests) {
+        this(firstname, lastname, email, password, age, country, state, city, biography, interests, false, new HashSet<>(), new HashSet<>());
     }
 
-    public AppUser(String firstname, String lastname, String email, String password, Integer age, String country, String city, String biography, Set<Interest> interests, boolean enabled, Set<String> friendList, Set<Authority> authorities) {
+    public AppUser(String firstname, String lastname, String email, String password, Integer age, String country, String state, String city, String biography, Set<Interest> interests, boolean enabled, Set<String> friendList, Set<Authority> authorities) {
         this.publicid = UUID.randomUUID().toString();
         this.firstname = firstname;
         this.lastname = lastname;
@@ -90,6 +88,7 @@ public class AppUser implements UserDetails {
         this.password = password;
         this.age = age;
         this.country = country;
+        this.state = state;
         this.city = city;
         this.biography = biography;
         this.interests = interests;
@@ -112,7 +111,7 @@ public class AppUser implements UserDetails {
 
     public AppUserReturnable toReturnable(){
         return new AppUserReturnable(
-                this.publicid, this.firstname, this.lastname, this.email, this.age, this.country, this.city, this.biography, getInterests(), this.friendList
+                this.publicid, this.firstname, this.lastname, this.email, this.age, this.country, this.state, this.city, this.biography, getInterests(), this.friendList
         );
     }
 

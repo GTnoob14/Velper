@@ -3,19 +3,21 @@ import Navbar from './models/_partials/Navbar';
 import FriendRequests from '../api/user/friends/FriendController';
 import ChatFriends from './models/chat/ChatFriends';
 import ChatRequests from '../api/chat/ChatController';
+import { CircularProgress } from '@mui/material';
 
 class ChatPage extends Component {
   constructor(props){
     super(props);
     this.state = {
       friends: [],
-      friend: {},
+      friend: null,
       messages: []
     };
   }
 
   componentDidMount(){
     FriendRequests.getFriends().then(res => {
+      console.log(res);
       this.setState({friends: res, friend: res[0]});
       this.loadMessagesOf(res[0].public_id);
     })
@@ -49,20 +51,20 @@ class ChatPage extends Component {
     
     return (
       <div>
-        <ChatFriends
-          friends={this.state.friends}
-          friend={this.state.friend}
-          messages={this.state.messages}
-
-          setFriend={this.updateFriend}
-          sendMessage={this.sendMessage}
-        />
-          {/* <Chat
+        {this.state.friend === null ?
+          <CircularProgress></CircularProgress> : (
+        <>
+          <ChatFriends
             friends={this.state.friends}
             friend={this.state.friend}
             messages={this.state.messages}
-          /> */}
+
+            setFriend={this.updateFriend}
+            sendMessage={this.sendMessage}
+          />
           <Navbar value={'chat'} />
+          </>
+        )}
       </div>
     )
   }

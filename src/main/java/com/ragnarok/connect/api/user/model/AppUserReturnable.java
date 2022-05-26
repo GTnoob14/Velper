@@ -17,6 +17,7 @@ public class AppUserReturnable {
     private String email;
     private Integer age;
     private String country;
+    private String state;
     private String city;
     private String biography;
     private Set<Interest> interests;

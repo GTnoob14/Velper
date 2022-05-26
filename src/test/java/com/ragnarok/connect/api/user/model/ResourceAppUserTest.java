@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -40,9 +40,10 @@ class ResourceAppUserTest {
      *   <li>{@link ResourceAppUser#setCountry(String)}
      *   <li>{@link ResourceAppUser#setEmail(String)}
      *   <li>{@link ResourceAppUser#setFirstname(String)}
-     *   <li>{@link ResourceAppUser#setInterests(List)}
+     *   <li>{@link ResourceAppUser#setInterests(Set)}
      *   <li>{@link ResourceAppUser#setLastname(String)}
      *   <li>{@link ResourceAppUser#setPassword(String)}
+     *   <li>{@link ResourceAppUser#setState(String)}
      * </ul>
      */
     @Test
@@ -54,63 +55,65 @@ class ResourceAppUserTest {
         actualResourceAppUser.setCountry("GB");
         actualResourceAppUser.setEmail("jane.doe@example.org");
         actualResourceAppUser.setFirstname("Jane");
-        ArrayList<String> stringList = new ArrayList<>();
-        actualResourceAppUser.setInterests(stringList);
+        HashSet<String> stringSet = new HashSet<>();
+        actualResourceAppUser.setInterests(stringSet);
         actualResourceAppUser.setLastname("Doe");
         actualResourceAppUser.setPassword("iloveyou");
+        actualResourceAppUser.setState("MD");
         assertEquals(1, actualResourceAppUser.getAge().intValue());
         assertEquals("Biography", actualResourceAppUser.getBiography());
         assertEquals("Oxford", actualResourceAppUser.getCity());
         assertEquals("GB", actualResourceAppUser.getCountry());
         assertEquals("jane.doe@example.org", actualResourceAppUser.getEmail());
         assertEquals("Jane", actualResourceAppUser.getFirstname());
-        assertSame(stringList, actualResourceAppUser.getInterests());
+        assertSame(stringSet, actualResourceAppUser.getInterests());
         assertEquals("Doe", actualResourceAppUser.getLastname());
         assertEquals("iloveyou", actualResourceAppUser.getPassword());
+        assertEquals("MD", actualResourceAppUser.getState());
     }
 
     /**
      * Methods under test:
      *
      * <ul>
-     *   <li>{@link ResourceAppUser#ResourceAppUser(String, String, String, String, Integer, String, String, String, List)}
+     *   <li>{@link ResourceAppUser#ResourceAppUser(String, String, String, String, Integer, String, String, String, String, Set)}
      *   <li>{@link ResourceAppUser#setAge(Integer)}
      *   <li>{@link ResourceAppUser#setBiography(String)}
      *   <li>{@link ResourceAppUser#setCity(String)}
      *   <li>{@link ResourceAppUser#setCountry(String)}
      *   <li>{@link ResourceAppUser#setEmail(String)}
      *   <li>{@link ResourceAppUser#setFirstname(String)}
-     *   <li>{@link ResourceAppUser#setInterests(List)}
+     *   <li>{@link ResourceAppUser#setInterests(Set)}
      *   <li>{@link ResourceAppUser#setLastname(String)}
      *   <li>{@link ResourceAppUser#setPassword(String)}
+     *   <li>{@link ResourceAppUser#setState(String)}
      * </ul>
      */
     @Test
     void testConstructor2() {
-        ArrayList<String> stringList = new ArrayList<>();
         ResourceAppUser actualResourceAppUser = new ResourceAppUser("Jane", "Doe", "iloveyou", "jane.doe@example.org", 1,
-                "GB", "Oxford", "Biography", stringList);
+                "GB", "MD", "Oxford", "Biography", new HashSet<>());
         actualResourceAppUser.setAge(1);
         actualResourceAppUser.setBiography("Biography");
         actualResourceAppUser.setCity("Oxford");
         actualResourceAppUser.setCountry("GB");
         actualResourceAppUser.setEmail("jane.doe@example.org");
         actualResourceAppUser.setFirstname("Jane");
-        ArrayList<String> stringList1 = new ArrayList<>();
-        actualResourceAppUser.setInterests(stringList1);
+        HashSet<String> stringSet = new HashSet<>();
+        actualResourceAppUser.setInterests(stringSet);
         actualResourceAppUser.setLastname("Doe");
         actualResourceAppUser.setPassword("iloveyou");
+        actualResourceAppUser.setState("MD");
         assertEquals(1, actualResourceAppUser.getAge().intValue());
         assertEquals("Biography", actualResourceAppUser.getBiography());
         assertEquals("Oxford", actualResourceAppUser.getCity());
         assertEquals("GB", actualResourceAppUser.getCountry());
         assertEquals("jane.doe@example.org", actualResourceAppUser.getEmail());
         assertEquals("Jane", actualResourceAppUser.getFirstname());
-        List<String> interests = actualResourceAppUser.getInterests();
-        assertSame(stringList1, interests);
-        assertEquals(stringList, interests);
+        assertSame(stringSet, actualResourceAppUser.getInterests());
         assertEquals("Doe", actualResourceAppUser.getLastname());
         assertEquals("iloveyou", actualResourceAppUser.getPassword());
+        assertEquals("MD", actualResourceAppUser.getState());
     }
 
     /**
@@ -151,7 +154,7 @@ class ResourceAppUserTest {
     @Test
     void testEquals4() {
         ResourceAppUser resourceAppUser = new ResourceAppUser("Jane", "Doe", "iloveyou", "jane.doe@example.org", 1, "GB",
-                "Oxford", "Biography", new ArrayList<>());
+                "MD", "Oxford", "Biography", new HashSet<>());
         assertNotEquals(resourceAppUser, new ResourceAppUser());
     }
 
@@ -162,7 +165,7 @@ class ResourceAppUserTest {
     void testEquals5() {
         ResourceAppUser resourceAppUser = new ResourceAppUser();
         assertNotEquals(resourceAppUser, new ResourceAppUser("Jane", "Doe", "iloveyou", "jane.doe@example.org", 1, "GB",
-                "Oxford", "Biography", new ArrayList<>()));
+                "MD", "Oxford", "Biography", new HashSet<>()));
     }
 
     /**
@@ -221,7 +224,7 @@ class ResourceAppUserTest {
     @Test
     void testEquals11() {
         ResourceAppUser resourceAppUser = new ResourceAppUser();
-        resourceAppUser.setCity("Oxford");
+        resourceAppUser.setState("MD");
         assertNotEquals(resourceAppUser, new ResourceAppUser());
     }
 
@@ -231,7 +234,7 @@ class ResourceAppUserTest {
     @Test
     void testEquals12() {
         ResourceAppUser resourceAppUser = new ResourceAppUser();
-        resourceAppUser.setBiography("Biography");
+        resourceAppUser.setCity("Oxford");
         assertNotEquals(resourceAppUser, new ResourceAppUser());
     }
 
@@ -241,7 +244,7 @@ class ResourceAppUserTest {
     @Test
     void testEquals13() {
         ResourceAppUser resourceAppUser = new ResourceAppUser();
-        resourceAppUser.setInterests(new ArrayList<>());
+        resourceAppUser.setBiography("Biography");
         assertNotEquals(resourceAppUser, new ResourceAppUser());
     }
 
@@ -250,10 +253,20 @@ class ResourceAppUserTest {
      */
     @Test
     void testEquals14() {
+        ResourceAppUser resourceAppUser = new ResourceAppUser();
+        resourceAppUser.setInterests(new HashSet<>());
+        assertNotEquals(resourceAppUser, new ResourceAppUser());
+    }
+
+    /**
+     * Method under test: {@link ResourceAppUser#equals(Object)}
+     */
+    @Test
+    void testEquals15() {
         ResourceAppUser resourceAppUser = new ResourceAppUser("Jane", "Doe", "iloveyou", "jane.doe@example.org", 1, "GB",
-                "Oxford", "Biography", new ArrayList<>());
+                "MD", "Oxford", "Biography", new HashSet<>());
         ResourceAppUser resourceAppUser1 = new ResourceAppUser("Jane", "Doe", "iloveyou", "jane.doe@example.org", 1, "GB",
-                "Oxford", "Biography", new ArrayList<>());
+                "MD", "Oxford", "Biography", new HashSet<>());
 
         assertEquals(resourceAppUser, resourceAppUser1);
         int expectedHashCodeResult = resourceAppUser.hashCode();
@@ -264,7 +277,7 @@ class ResourceAppUserTest {
      * Method under test: {@link ResourceAppUser#equals(Object)}
      */
     @Test
-    void testEquals15() {
+    void testEquals16() {
         ResourceAppUser resourceAppUser = new ResourceAppUser();
 
         ResourceAppUser resourceAppUser1 = new ResourceAppUser();
@@ -276,7 +289,7 @@ class ResourceAppUserTest {
      * Method under test: {@link ResourceAppUser#equals(Object)}
      */
     @Test
-    void testEquals16() {
+    void testEquals17() {
         ResourceAppUser resourceAppUser = new ResourceAppUser();
 
         ResourceAppUser resourceAppUser1 = new ResourceAppUser();
@@ -288,7 +301,7 @@ class ResourceAppUserTest {
      * Method under test: {@link ResourceAppUser#equals(Object)}
      */
     @Test
-    void testEquals17() {
+    void testEquals18() {
         ResourceAppUser resourceAppUser = new ResourceAppUser();
 
         ResourceAppUser resourceAppUser1 = new ResourceAppUser();
@@ -300,7 +313,7 @@ class ResourceAppUserTest {
      * Method under test: {@link ResourceAppUser#equals(Object)}
      */
     @Test
-    void testEquals18() {
+    void testEquals19() {
         ResourceAppUser resourceAppUser = new ResourceAppUser();
 
         ResourceAppUser resourceAppUser1 = new ResourceAppUser();
@@ -312,7 +325,7 @@ class ResourceAppUserTest {
      * Method under test: {@link ResourceAppUser#equals(Object)}
      */
     @Test
-    void testEquals19() {
+    void testEquals20() {
         ResourceAppUser resourceAppUser = new ResourceAppUser();
 
         ResourceAppUser resourceAppUser1 = new ResourceAppUser();
@@ -324,23 +337,11 @@ class ResourceAppUserTest {
      * Method under test: {@link ResourceAppUser#equals(Object)}
      */
     @Test
-    void testEquals20() {
-        ResourceAppUser resourceAppUser = new ResourceAppUser();
-
-        ResourceAppUser resourceAppUser1 = new ResourceAppUser();
-        resourceAppUser1.setCity("Oxford");
-        assertNotEquals(resourceAppUser, resourceAppUser1);
-    }
-
-    /**
-     * Method under test: {@link ResourceAppUser#equals(Object)}
-     */
-    @Test
     void testEquals21() {
         ResourceAppUser resourceAppUser = new ResourceAppUser();
 
         ResourceAppUser resourceAppUser1 = new ResourceAppUser();
-        resourceAppUser1.setBiography("Biography");
+        resourceAppUser1.setState("MD");
         assertNotEquals(resourceAppUser, resourceAppUser1);
     }
 
@@ -352,7 +353,31 @@ class ResourceAppUserTest {
         ResourceAppUser resourceAppUser = new ResourceAppUser();
 
         ResourceAppUser resourceAppUser1 = new ResourceAppUser();
-        resourceAppUser1.setInterests(new ArrayList<>());
+        resourceAppUser1.setCity("Oxford");
+        assertNotEquals(resourceAppUser, resourceAppUser1);
+    }
+
+    /**
+     * Method under test: {@link ResourceAppUser#equals(Object)}
+     */
+    @Test
+    void testEquals23() {
+        ResourceAppUser resourceAppUser = new ResourceAppUser();
+
+        ResourceAppUser resourceAppUser1 = new ResourceAppUser();
+        resourceAppUser1.setBiography("Biography");
+        assertNotEquals(resourceAppUser, resourceAppUser1);
+    }
+
+    /**
+     * Method under test: {@link ResourceAppUser#equals(Object)}
+     */
+    @Test
+    void testEquals24() {
+        ResourceAppUser resourceAppUser = new ResourceAppUser();
+
+        ResourceAppUser resourceAppUser1 = new ResourceAppUser();
+        resourceAppUser1.setInterests(new HashSet<>());
         assertNotEquals(resourceAppUser, resourceAppUser1);
     }
 }

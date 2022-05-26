@@ -6,8 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.ragnarok.connect.api.interests.model.Interest;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -40,10 +42,11 @@ class AppUserReturnableTest {
      *   <li>{@link AppUserReturnable#setCountry(String)}
      *   <li>{@link AppUserReturnable#setEmail(String)}
      *   <li>{@link AppUserReturnable#setFirstname(String)}
-     *   <li>{@link AppUserReturnable#setFriendIdList(List)}
-     *   <li>{@link AppUserReturnable#setInterests(List)}
+     *   <li>{@link AppUserReturnable#setFriendIdList(Set)}
+     *   <li>{@link AppUserReturnable#setInterests(Set)}
      *   <li>{@link AppUserReturnable#setLastname(String)}
      *   <li>{@link AppUserReturnable#setPublic_id(String)}
+     *   <li>{@link AppUserReturnable#setState(String)}
      * </ul>
      */
     @Test
@@ -55,81 +58,73 @@ class AppUserReturnableTest {
         actualAppUserReturnable.setCountry("GB");
         actualAppUserReturnable.setEmail("jane.doe@example.org");
         actualAppUserReturnable.setFirstname("Jane");
-        ArrayList<String> stringList = new ArrayList<>();
-        actualAppUserReturnable.setFriendIdList(stringList);
-        ArrayList<String> stringList1 = new ArrayList<>();
-        actualAppUserReturnable.setInterests(stringList1);
+        HashSet<String> stringSet = new HashSet<>();
+        actualAppUserReturnable.setFriendIdList(stringSet);
+        HashSet<Interest> interestSet = new HashSet<>();
+        actualAppUserReturnable.setInterests(interestSet);
         actualAppUserReturnable.setLastname("Doe");
         actualAppUserReturnable.setPublic_id("Public id");
+        actualAppUserReturnable.setState("MD");
         assertEquals(1, actualAppUserReturnable.getAge().intValue());
         assertEquals("Biography", actualAppUserReturnable.getBiography());
         assertEquals("Oxford", actualAppUserReturnable.getCity());
         assertEquals("GB", actualAppUserReturnable.getCountry());
         assertEquals("jane.doe@example.org", actualAppUserReturnable.getEmail());
         assertEquals("Jane", actualAppUserReturnable.getFirstname());
-        List<String> friendIdList = actualAppUserReturnable.getFriendIdList();
-        assertSame(stringList, friendIdList);
-        List<String> interests = actualAppUserReturnable.getInterests();
-        assertEquals(interests, friendIdList);
-        assertSame(stringList1, interests);
-        assertEquals(stringList, interests);
+        assertSame(stringSet, actualAppUserReturnable.getFriendIdList());
+        assertSame(interestSet, actualAppUserReturnable.getInterests());
         assertEquals("Doe", actualAppUserReturnable.getLastname());
         assertEquals("Public id", actualAppUserReturnable.getPublic_id());
+        assertEquals("MD", actualAppUserReturnable.getState());
     }
 
     /**
      * Methods under test:
      *
      * <ul>
-     *   <li>{@link AppUserReturnable#AppUserReturnable(String, String, String, String, Integer, String, String, String, List, List)}
+     *   <li>{@link AppUserReturnable#AppUserReturnable(String, String, String, String, Integer, String, String, String, String, Set, Set)}
      *   <li>{@link AppUserReturnable#setAge(Integer)}
      *   <li>{@link AppUserReturnable#setBiography(String)}
      *   <li>{@link AppUserReturnable#setCity(String)}
      *   <li>{@link AppUserReturnable#setCountry(String)}
      *   <li>{@link AppUserReturnable#setEmail(String)}
      *   <li>{@link AppUserReturnable#setFirstname(String)}
-     *   <li>{@link AppUserReturnable#setFriendIdList(List)}
-     *   <li>{@link AppUserReturnable#setInterests(List)}
+     *   <li>{@link AppUserReturnable#setFriendIdList(Set)}
+     *   <li>{@link AppUserReturnable#setInterests(Set)}
      *   <li>{@link AppUserReturnable#setLastname(String)}
      *   <li>{@link AppUserReturnable#setPublic_id(String)}
+     *   <li>{@link AppUserReturnable#setState(String)}
      * </ul>
      */
     @Test
     void testConstructor2() {
-        ArrayList<String> stringList = new ArrayList<>();
-        ArrayList<String> stringList1 = new ArrayList<>();
+        HashSet<Interest> interests = new HashSet<>();
         AppUserReturnable actualAppUserReturnable = new AppUserReturnable("Public id", "Jane", "Doe",
-                "jane.doe@example.org", 1, "GB", "Oxford", "Biography", stringList, stringList1);
+                "jane.doe@example.org", 1, "GB", "MD", "Oxford", "Biography", interests, new HashSet<>());
         actualAppUserReturnable.setAge(1);
         actualAppUserReturnable.setBiography("Biography");
         actualAppUserReturnable.setCity("Oxford");
         actualAppUserReturnable.setCountry("GB");
         actualAppUserReturnable.setEmail("jane.doe@example.org");
         actualAppUserReturnable.setFirstname("Jane");
-        ArrayList<String> stringList2 = new ArrayList<>();
-        actualAppUserReturnable.setFriendIdList(stringList2);
-        ArrayList<String> stringList3 = new ArrayList<>();
-        actualAppUserReturnable.setInterests(stringList3);
+        HashSet<String> stringSet = new HashSet<>();
+        actualAppUserReturnable.setFriendIdList(stringSet);
+        HashSet<Interest> interestSet = new HashSet<>();
+        actualAppUserReturnable.setInterests(interestSet);
         actualAppUserReturnable.setLastname("Doe");
         actualAppUserReturnable.setPublic_id("Public id");
+        actualAppUserReturnable.setState("MD");
         assertEquals(1, actualAppUserReturnable.getAge().intValue());
         assertEquals("Biography", actualAppUserReturnable.getBiography());
         assertEquals("Oxford", actualAppUserReturnable.getCity());
         assertEquals("GB", actualAppUserReturnable.getCountry());
         assertEquals("jane.doe@example.org", actualAppUserReturnable.getEmail());
         assertEquals("Jane", actualAppUserReturnable.getFirstname());
-        List<String> friendIdList = actualAppUserReturnable.getFriendIdList();
-        assertSame(stringList2, friendIdList);
-        assertEquals(stringList, friendIdList);
-        assertEquals(stringList1, friendIdList);
-        List<String> interests = actualAppUserReturnable.getInterests();
-        assertEquals(interests, friendIdList);
-        assertSame(stringList3, interests);
-        assertEquals(stringList, interests);
-        assertEquals(stringList1, interests);
-        assertEquals(stringList2, interests);
+        assertSame(stringSet, actualAppUserReturnable.getFriendIdList());
+        assertSame(interestSet, actualAppUserReturnable.getInterests());
         assertEquals("Doe", actualAppUserReturnable.getLastname());
         assertEquals("Public id", actualAppUserReturnable.getPublic_id());
+        assertEquals("MD", actualAppUserReturnable.getState());
     }
 
     /**
@@ -169,9 +164,9 @@ class AppUserReturnableTest {
      */
     @Test
     void testEquals4() {
-        ArrayList<String> interests = new ArrayList<>();
+        HashSet<Interest> interests = new HashSet<>();
         AppUserReturnable appUserReturnable = new AppUserReturnable("Public id", "Jane", "Doe", "jane.doe@example.org", 1,
-                "GB", "Oxford", "Biography", interests, new ArrayList<>());
+                "GB", "MD", "Oxford", "Biography", interests, new HashSet<>());
         assertNotEquals(appUserReturnable, new AppUserReturnable());
     }
 
@@ -181,9 +176,9 @@ class AppUserReturnableTest {
     @Test
     void testEquals5() {
         AppUserReturnable appUserReturnable = new AppUserReturnable();
-        ArrayList<String> interests = new ArrayList<>();
+        HashSet<Interest> interests = new HashSet<>();
         assertNotEquals(appUserReturnable, new AppUserReturnable("Public id", "Jane", "Doe", "jane.doe@example.org", 1,
-                "GB", "Oxford", "Biography", interests, new ArrayList<>()));
+                "GB", "MD", "Oxford", "Biography", interests, new HashSet<>()));
     }
 
     /**
@@ -242,7 +237,7 @@ class AppUserReturnableTest {
     @Test
     void testEquals11() {
         AppUserReturnable appUserReturnable = new AppUserReturnable();
-        appUserReturnable.setCity("Oxford");
+        appUserReturnable.setState("MD");
         assertNotEquals(appUserReturnable, new AppUserReturnable());
     }
 
@@ -252,7 +247,7 @@ class AppUserReturnableTest {
     @Test
     void testEquals12() {
         AppUserReturnable appUserReturnable = new AppUserReturnable();
-        appUserReturnable.setBiography("Biography");
+        appUserReturnable.setCity("Oxford");
         assertNotEquals(appUserReturnable, new AppUserReturnable());
     }
 
@@ -262,7 +257,7 @@ class AppUserReturnableTest {
     @Test
     void testEquals13() {
         AppUserReturnable appUserReturnable = new AppUserReturnable();
-        appUserReturnable.setInterests(new ArrayList<>());
+        appUserReturnable.setBiography("Biography");
         assertNotEquals(appUserReturnable, new AppUserReturnable());
     }
 
@@ -272,7 +267,7 @@ class AppUserReturnableTest {
     @Test
     void testEquals14() {
         AppUserReturnable appUserReturnable = new AppUserReturnable();
-        appUserReturnable.setFriendIdList(new ArrayList<>());
+        appUserReturnable.setInterests(new HashSet<>());
         assertNotEquals(appUserReturnable, new AppUserReturnable());
     }
 
@@ -281,12 +276,22 @@ class AppUserReturnableTest {
      */
     @Test
     void testEquals15() {
-        ArrayList<String> interests = new ArrayList<>();
+        AppUserReturnable appUserReturnable = new AppUserReturnable();
+        appUserReturnable.setFriendIdList(new HashSet<>());
+        assertNotEquals(appUserReturnable, new AppUserReturnable());
+    }
+
+    /**
+     * Method under test: {@link AppUserReturnable#equals(Object)}
+     */
+    @Test
+    void testEquals16() {
+        HashSet<Interest> interests = new HashSet<>();
         AppUserReturnable appUserReturnable = new AppUserReturnable("Public id", "Jane", "Doe", "jane.doe@example.org", 1,
-                "GB", "Oxford", "Biography", interests, new ArrayList<>());
-        ArrayList<String> interests1 = new ArrayList<>();
+                "GB", "MD", "Oxford", "Biography", interests, new HashSet<>());
+        HashSet<Interest> interests1 = new HashSet<>();
         AppUserReturnable appUserReturnable1 = new AppUserReturnable("Public id", "Jane", "Doe", "jane.doe@example.org", 1,
-                "GB", "Oxford", "Biography", interests1, new ArrayList<>());
+                "GB", "MD", "Oxford", "Biography", interests1, new HashSet<>());
 
         assertEquals(appUserReturnable, appUserReturnable1);
         int expectedHashCodeResult = appUserReturnable.hashCode();
@@ -297,7 +302,7 @@ class AppUserReturnableTest {
      * Method under test: {@link AppUserReturnable#equals(Object)}
      */
     @Test
-    void testEquals16() {
+    void testEquals17() {
         AppUserReturnable appUserReturnable = new AppUserReturnable();
 
         AppUserReturnable appUserReturnable1 = new AppUserReturnable();
@@ -309,7 +314,7 @@ class AppUserReturnableTest {
      * Method under test: {@link AppUserReturnable#equals(Object)}
      */
     @Test
-    void testEquals17() {
+    void testEquals18() {
         AppUserReturnable appUserReturnable = new AppUserReturnable();
 
         AppUserReturnable appUserReturnable1 = new AppUserReturnable();
@@ -321,7 +326,7 @@ class AppUserReturnableTest {
      * Method under test: {@link AppUserReturnable#equals(Object)}
      */
     @Test
-    void testEquals18() {
+    void testEquals19() {
         AppUserReturnable appUserReturnable = new AppUserReturnable();
 
         AppUserReturnable appUserReturnable1 = new AppUserReturnable();
@@ -333,7 +338,7 @@ class AppUserReturnableTest {
      * Method under test: {@link AppUserReturnable#equals(Object)}
      */
     @Test
-    void testEquals19() {
+    void testEquals20() {
         AppUserReturnable appUserReturnable = new AppUserReturnable();
 
         AppUserReturnable appUserReturnable1 = new AppUserReturnable();
@@ -345,7 +350,7 @@ class AppUserReturnableTest {
      * Method under test: {@link AppUserReturnable#equals(Object)}
      */
     @Test
-    void testEquals20() {
+    void testEquals21() {
         AppUserReturnable appUserReturnable = new AppUserReturnable();
 
         AppUserReturnable appUserReturnable1 = new AppUserReturnable();
@@ -357,23 +362,11 @@ class AppUserReturnableTest {
      * Method under test: {@link AppUserReturnable#equals(Object)}
      */
     @Test
-    void testEquals21() {
-        AppUserReturnable appUserReturnable = new AppUserReturnable();
-
-        AppUserReturnable appUserReturnable1 = new AppUserReturnable();
-        appUserReturnable1.setCity("Oxford");
-        assertNotEquals(appUserReturnable, appUserReturnable1);
-    }
-
-    /**
-     * Method under test: {@link AppUserReturnable#equals(Object)}
-     */
-    @Test
     void testEquals22() {
         AppUserReturnable appUserReturnable = new AppUserReturnable();
 
         AppUserReturnable appUserReturnable1 = new AppUserReturnable();
-        appUserReturnable1.setBiography("Biography");
+        appUserReturnable1.setState("MD");
         assertNotEquals(appUserReturnable, appUserReturnable1);
     }
 
@@ -385,7 +378,7 @@ class AppUserReturnableTest {
         AppUserReturnable appUserReturnable = new AppUserReturnable();
 
         AppUserReturnable appUserReturnable1 = new AppUserReturnable();
-        appUserReturnable1.setInterests(new ArrayList<>());
+        appUserReturnable1.setCity("Oxford");
         assertNotEquals(appUserReturnable, appUserReturnable1);
     }
 
@@ -397,7 +390,31 @@ class AppUserReturnableTest {
         AppUserReturnable appUserReturnable = new AppUserReturnable();
 
         AppUserReturnable appUserReturnable1 = new AppUserReturnable();
-        appUserReturnable1.setFriendIdList(new ArrayList<>());
+        appUserReturnable1.setBiography("Biography");
+        assertNotEquals(appUserReturnable, appUserReturnable1);
+    }
+
+    /**
+     * Method under test: {@link AppUserReturnable#equals(Object)}
+     */
+    @Test
+    void testEquals25() {
+        AppUserReturnable appUserReturnable = new AppUserReturnable();
+
+        AppUserReturnable appUserReturnable1 = new AppUserReturnable();
+        appUserReturnable1.setInterests(new HashSet<>());
+        assertNotEquals(appUserReturnable, appUserReturnable1);
+    }
+
+    /**
+     * Method under test: {@link AppUserReturnable#equals(Object)}
+     */
+    @Test
+    void testEquals26() {
+        AppUserReturnable appUserReturnable = new AppUserReturnable();
+
+        AppUserReturnable appUserReturnable1 = new AppUserReturnable();
+        appUserReturnable1.setFriendIdList(new HashSet<>());
         assertNotEquals(appUserReturnable, appUserReturnable1);
     }
 }

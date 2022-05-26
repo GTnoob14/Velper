@@ -13,7 +13,7 @@ function ProfileCard(props) {
             { `${props.firstname} ${props.lastname} (${props.age})` }
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {`${props.city}, ${props.country}`}
+            {`${props.city}, ${props.country} (${props.state})`}
           </Typography>
           <Typography variant="body1" color="text.primary">
             { props.biography }
@@ -27,14 +27,22 @@ function ProfileCard(props) {
           </Box>
         </CardContent>
       </CardActionArea>
-      <CardActions style={{justifyContent: 'center'}}>
-        <Button size="small" color="primary" variant='contained' onClick={() => {props.addToFriends(props.public_id); props.next()}}>
-            Add
-        </Button>
-        <Button size="small" color="error" variant='contained' onClick={props.next}>
-            Skip
-        </Button>
-      </CardActions>
+      {props.friend ? (
+        <CardActions style={{justifyContent: 'center'}}>
+          <Button size="small" color="primary" variant='contained' onClick={() => {props.addToFriends(props.public_id); props.next()}}>
+              Add
+          </Button>
+          <Button size="small" color="error" variant='contained' onClick={props.next}>
+              Skip
+          </Button>
+        </CardActions>
+      ) : (
+        <CardActions style={{justifyContent: 'center', marginBottom: '15px' }}>
+          <Button size="small" color={props.close ? "warning" : "primary"} variant='contained' onClick={props.updateUser}>
+            {props.close ? 'Close' : 'Update'}
+          </Button>
+        </CardActions>
+      ) }
     </Card>
   )
 }

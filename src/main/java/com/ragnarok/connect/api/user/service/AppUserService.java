@@ -1,5 +1,6 @@
 package com.ragnarok.connect.api.user.service;
 
+import com.ragnarok.connect.api.interests.model.Interest;
 import com.ragnarok.connect.api.interests.service.InterestService;
 import com.ragnarok.connect.api.user.model.AppUser;
 import com.ragnarok.connect.api.user.model.ResourceAppUser;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,9 +59,10 @@ public class AppUserService implements UserDetailsService {
                 bCryptPasswordEncoder.encode(resourceAppUser.getPassword()),
                 resourceAppUser.getAge(),
                 resourceAppUser.getCountry(),
+                resourceAppUser.getState(),
                 resourceAppUser.getCity(),
                 resourceAppUser.getBiography(),
-                resourceAppUser.getInterests() == null ? null : resourceAppUser.getInterests().stream().map(i -> interestService.findInterestByName(i).orElse(interestService.addInterest(i))).collect(Collectors.toSet())
+                resourceAppUser.getInterests() == null ? null : resourceAppUser.getInterests().stream().map(i -> interestService.findInterestByName(i).orElseGet(() -> interestService.addInterest(i))).collect(Collectors.toSet())
         ));
     }
 
@@ -71,6 +74,7 @@ public class AppUserService implements UserDetailsService {
         user.setEmail(resourceAppUser.getEmail());
         user.setAge(resourceAppUser.getAge());
         user.setCountry(resourceAppUser.getCountry());
+        user.setState(resourceAppUser.getState());
         user.setCity(resourceAppUser.getCity());
         user.setBiography(resourceAppUser.getBiography());
         user.setInterests(resourceAppUser.getInterests().stream().map(i -> interestService.addInterest(i)).collect(Collectors.toSet()));

@@ -20,7 +20,7 @@ public class AppUserRepositoryTests {
         //given
         final String email = "bob@gmail.com";
         AppUser appUser = new AppUser(
-                "Bob", "Johnson", email, "bobby123", 35, "USA", "San Francisco", "Bob is here", null, true, null, null
+                "Bob", "Johnson", email, "bobby123", 35, "USA", "California", "San Francisco", "Bob is here", null, true, null, null
         );
 
         //when
@@ -38,7 +38,7 @@ public class AppUserRepositoryTests {
         //given
         final String publicid = "sdk9-sme8-20ke-8dh3";
         AppUser appUser = new AppUser(
-                "Bob", "Johnson", "bob@gmail.com", "bobby123", 35, "USA", "San Francisco", "Bob is here", null, true, null, null
+                "Bob", "Johnson", "bob@gmail.com", "bobby123", 35, "USA", "California", "San Francisco", "Bob is here", null, true, null, null
         );
         appUser.setPublicid(publicid);
 

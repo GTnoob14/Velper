@@ -10,13 +10,17 @@ import Typography from '@mui/material/Typography';
 import FriendsChoice from './FriendsChoice';
 import Chat from './Chat';
 import TextInput from './TextInput';
-
+import InfoIcon from '@mui/icons-material/Info';
+import { Backdrop } from '@mui/material';
+import ProfileCard from '../ProfileCard';
 
 const drawerWidth = 240;
 
 function ChatFriends(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const [open, setOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -62,9 +66,17 @@ function ChatFriends(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography align='left' variant="h6" noWrap component="div" sx={{flexGrow: 1}}>
             {`${props.friend.firstname} ${props.friend.lastname}`}
           </Typography>
+          <IconButton
+            color="inherit"
+            aria-label={`show profile of ${props.friend.firstname} ${props.friend.lastname}`}
+            onClick={() => setOpen(true)}
+            sx={{ mr: 2 }}
+          >
+            <InfoIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Box
@@ -121,6 +133,30 @@ function ChatFriends(props) {
           justifyContent: 'space-between'
         }}>
 
+          <Backdrop
+            sx={{zIndex: (theme => theme.zIndex.drawer + 1)}}
+            open={open}
+            onClick={() => setOpen(false)}
+          >
+            
+            <ProfileCard
+             public_id={props.friend.public_id}
+             firstname={props.friend.firstname}
+             lastname={props.friend.lastname}
+             age={props.friend.age}
+             email={props.friend.email}
+             country={props.friend.country}
+             state={props.friend.state}
+             city={props.friend.city}
+             biography={props.friend.biography}
+             interests={props.friend.interests}
+
+             friend={false}
+             close={true}
+          />
+
+          </Backdrop>
+
           <Chat
             messages={props.messages}
             friend_id={props.friend.public_id}
@@ -134,7 +170,6 @@ function ChatFriends(props) {
             style={{
               position: 'absolute',
               bottom: 0,
-              
             }}
           />
           

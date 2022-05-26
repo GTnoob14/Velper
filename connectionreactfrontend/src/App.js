@@ -9,7 +9,7 @@ import Home from './components/Home';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ChatPage from './components/ChatPage';
 import FindPage from './components/FindPage';
-
+import UpdateOwnProfilePage from './components/UpdateOwnProfilePage';
 
 const theme = createTheme({
   palette: {
@@ -32,6 +32,7 @@ function App() {
             <Route path='/find' element={<FindPage key="find_page" />} />
             <Route path='/chat' element={<ChatPage key="chat_page" />} />
             <Route path='/profile' element={<OwnProfilePage key="ownprofilepage_page" />}/>
+            <Route path='/profile/update' element={<UpdateOwnProfilePage key="updateownprofilepage_page" />}/>
           </Routes>
         </Router>
       </div>

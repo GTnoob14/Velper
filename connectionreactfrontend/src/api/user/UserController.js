@@ -3,16 +3,20 @@ import UserModel from '../_models/User.datamodel';
 import qs from 'qs';
 import axios from "axios";
 
+function convertToUserModel(res){
+    return new UserModel(res.public_id, res.firstname, res.lastname, res.password, res.email, res.age, res.country, res.state, res.city, res.biography, res.interests, res.friendIdList);
+}
+
 //returns Promise<UserModel>
 async function getUsers() {
     const data = (await api.get('/user/all')).data;
-    data.map(res => new UserModel(res.public_id, res.firstname, res.lastname, res.password, res.email, res.age, res.country, res.city, res.biography, res.interests, res.friendIdList));
+    data.map(res => convertToUserModel(res));
     return data;
 }
 
 async function getUser() {
     const res = (await api.get('/user')).data;
-    return new UserModel(res.public_id, res.firstname, res.lastname, res.password, res.email, res.age, res.country, res.city, res.biography, res.interests, res.friendIdList)
+    return convertToUserModel(res);
 }
 
 async function signUp(userModel){
@@ -27,8 +31,8 @@ async function login(email, password, remember_me){
 }
 
 async function updateUser(userModel){
-    const res = (await api.put('/user')).data;
-    return new UserModel(res.public_id, res.firstname, res.lastname, res.password, res.email, res.age, res.country, res.city, res.biography, res.interests, res.friendIdList)
+    const res = (await api.put('/user', userModel)).data;
+    return convertToUserModel(res);
 }
 
 async function deleteUser(){

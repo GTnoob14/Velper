@@ -45,8 +45,8 @@ public class AppUserController {
     }
 
     @PutMapping
-    public AppUserReturnable updateUser(Principal principal, @RequestBody ResourceAppUser resourceAppUser){
-        Long principal_id = ((AppUser) principal).getId();
+    public AppUserReturnable updateUser(@AuthenticationPrincipal AppUser appUser, @RequestBody ResourceAppUser resourceAppUser){
+        Long principal_id = appUser.getId();
         return appUserService.updateUser(principal_id, resourceAppUser).toReturnable();
     }
 

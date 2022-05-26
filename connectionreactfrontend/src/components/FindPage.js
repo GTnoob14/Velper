@@ -47,12 +47,15 @@ class FindPage extends Component {
              age={friend.age}
              email={friend.email}
              country={friend.country}
+             state={friend.state}
              city={friend.city}
              biography={friend.biography}
              interests={friend.interests}
 
              addToFriends={this.addToFriends}
              next={this.next}
+
+             friend={true}
           />
           <Navbar value={'find'}/>
       </div>

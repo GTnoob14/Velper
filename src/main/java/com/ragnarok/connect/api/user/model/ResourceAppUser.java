@@ -16,6 +16,7 @@ public class ResourceAppUser {
     private String email;
     private Integer age;
     private String country;
+    private String state;
     private String city;
     private String biography;
     private Set<String> interests;

@@ -37,6 +37,7 @@ const TextInput = (props) => {
                 className={classes.wrapText}
                 value={text}
                 onChange={e => setText(e.target.value)}
+                onKeyDown={(e => { if(e.key === "Enter") props.sendMessage(text) })}
             />
             <Button variant="contained" color="primary" className={classes.button} onClick={() => props.sendMessage(text)}>
                 <SendIcon />
