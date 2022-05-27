@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors().and()
-                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/login", "/api/v1/user/add").and()
+                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/login", "/api/v1/user/add", "/api/v1/csc/**", "/api/v1/interests").and()
                 .httpBasic().disable()
                 .formLogin()
                     .loginPage("/login")
@@ -38,8 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().rememberMe().tokenValiditySeconds(30*24*60*60).userDetailsService(appUserService) //30 days (1 Month)
                 .and().userDetailsService(appUserService)
                     .authorizeRequests()
-                    .mvcMatchers("/login").permitAll()
+                    .mvcMatchers("/login", "/api/v1/csc/**").permitAll()
                     .mvcMatchers(HttpMethod.POST, "/api/v1/user/add").permitAll()
+                    .mvcMatchers(HttpMethod.GET, "/api/v1/interests").permitAll()
                     .anyRequest().authenticated()
                 .and().exceptionHandling()
                     .defaultAuthenticationEntryPointFor(new Http403ForbiddenEntryPoint(), new AntPathRequestMatcher("/**"))

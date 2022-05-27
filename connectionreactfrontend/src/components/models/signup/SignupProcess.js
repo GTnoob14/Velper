@@ -47,6 +47,8 @@ export default function SignupProcess(props) {
     
     updateBiography={props.updateBiography}
     updateInterests={props.updateInterests}
+
+    interestList={props.interestList}
   />];
 
   const handleNext = () => {

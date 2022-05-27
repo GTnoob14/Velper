@@ -21,7 +21,7 @@ export default function StateSelect(props) {
       renderInput={(params) => (
         <TextField
           {...params}
-          label={props.name}
+          label={"State"}
           variant={props.variant}
           required
           value={props.state}

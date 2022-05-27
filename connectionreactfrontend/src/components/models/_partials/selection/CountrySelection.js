@@ -29,7 +29,7 @@ export default function CountrySelect(props) {
       renderInput={(params) => (
         <TextField
           {...params}
-          label={props.name}
+          label={"Country"}
           variant={props.variant}
           required
           value={props.country}

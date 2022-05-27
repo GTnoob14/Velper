@@ -51,18 +51,22 @@ class ChatPage extends Component {
     
     return (
       <div>
-        {this.state.friend === null ?
-          <CircularProgress></CircularProgress> : (
-        <>
-          <ChatFriends
-            friends={this.state.friends}
-            friend={this.state.friend}
-            messages={this.state.messages}
+        {this.state.friend === null ? (
+          <>
+            <CircularProgress />
+            <Navbar value={'chat'} />
+          </>
+            ) : (
+          <>
+            <ChatFriends
+              friends={this.state.friends}
+              friend={this.state.friend}
+              messages={this.state.messages}
 
-            setFriend={this.updateFriend}
-            sendMessage={this.sendMessage}
-          />
-          <Navbar value={'chat'} />
+              setFriend={this.updateFriend}
+              sendMessage={this.sendMessage}
+            />
+            <Navbar value={'chat'} />
           </>
         )}
       </div>

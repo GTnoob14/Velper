@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -21,8 +21,8 @@ public class InterestService {
         return interestRepository.findByInterest(interest);
     }
 
-    public List<Interest> getInterests(){
-        return interestRepository.findAll();
+    public Set<Interest> getInterests(){
+        return (Set<Interest>) interestRepository.findAll();
     }
 
     public Interest addInterest(String interest){

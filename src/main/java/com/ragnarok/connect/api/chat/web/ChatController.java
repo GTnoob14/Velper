@@ -27,29 +27,29 @@ public class ChatController {
 
     @Autowired
     private final ChatService chatService;
-    @Autowired
-    private final SimpMessagingTemplate simpMessagingTemplate;
+//    @Autowired
+//    private final SimpMessagingTemplate simpMessagingTemplate;
 
     @GetMapping
     public List<MessageReturnable> getMessages(@AuthenticationPrincipal AppUser appUser, @PathVariable(name="friend_id") String friend_id){
         return chatService.getMessagesOfUser(appUser, friend_id).stream().map(Message::toReturnable).collect(Collectors.toList());
     }
 
-    @MessageMapping("/messages/{friend_id}")
-    public void sendMessage(@AuthenticationPrincipal AppUser appUser, @Payload ResourceMessage resourceMessage, @DestinationVariable(value="friend_id") String friend_id) throws EmptyMessageException {
-
-        final Long principal_id = appUser.getId();
-        final String content = resourceMessage.getMessage();
-
-        //Check if Message Content is valid
-        if(!"".equals(content.replaceAll(" ", ""))) {
-
-            final MessageReturnable messageReturnable = chatService.sendMessage(appUser, friend_id, resourceMessage).toReturnable();
-
-            simpMessagingTemplate.convertAndSendToUser(principal_id.toString(), "queue/messages/" + friend_id, messageReturnable);
-            simpMessagingTemplate.convertAndSendToUser(friend_id, "queue/messages/" + principal_id, messageReturnable);
-        }
-    }
+//    @MessageMapping("/messages/{friend_id}")
+//    public void sendMessage(@AuthenticationPrincipal AppUser appUser, @Payload ResourceMessage resourceMessage, @DestinationVariable(value="friend_id") String friend_id) throws EmptyMessageException {
+//
+//        final Long principal_id = appUser.getId();
+//        final String content = resourceMessage.getMessage();
+//
+//        //Check if Message Content is valid
+//        if(!"".equals(content.replaceAll(" ", ""))) {
+//
+//            final MessageReturnable messageReturnable = chatService.sendMessage(appUser, friend_id, resourceMessage).toReturnable();
+//
+//            simpMessagingTemplate.convertAndSendToUser(principal_id.toString(), "queue/messages/" + friend_id, messageReturnable);
+//            simpMessagingTemplate.convertAndSendToUser(friend_id, "queue/messages/" + principal_id, messageReturnable);
+//        }
+//    }
 
     @PostMapping
     public void justSendMessage(@AuthenticationPrincipal AppUser appUser, @PathVariable(name="friend_id") String friend_id, @RequestBody ResourceMessage resourceMessage) throws EmptyMessageException {

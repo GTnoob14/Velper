@@ -4,6 +4,8 @@ import UserModel from "../api/_models/User.datamodel";
 import { Divider } from "@mui/material";
 import SignupProcess from "./models/signup/SignupProcess";
 import cscController from '../api/csc/CSC_Controller';
+import InterestController from "../api/interests/InterestsController";
+
 class Signup extends React.Component{
   constructor(props){
     super(props);
@@ -21,13 +23,17 @@ class Signup extends React.Component{
 
       countries: [],
       states: [],
-      cities: []
+      cities: [],
+
+      interestList: new Set()
     }
   }
 
   componentDidMount(){
     cscController.getAllCountries().then(res => {
-      this.setState({countries: res || []});
+      InterestController.getAllInterests().then(i => {
+        this.setState({countries: res || [], interestList: new Set(i.map(ist => ist.interest)) || new Set()});
+      })
     });
   }
 
@@ -164,6 +170,7 @@ class Signup extends React.Component{
           countries={this.state.countries}
           states={this.state.states}
           cities={this.state.cities}
+          interestList={this.state.interestList}
         />
       </>
     );

@@ -77,7 +77,7 @@ public class AppUserService implements UserDetailsService {
         user.setState(resourceAppUser.getState());
         user.setCity(resourceAppUser.getCity());
         user.setBiography(resourceAppUser.getBiography());
-        user.setInterests(resourceAppUser.getInterests().stream().map(i -> interestService.addInterest(i)).collect(Collectors.toSet()));
+        user.setInterests(resourceAppUser.getInterests() == null ? null : resourceAppUser.getInterests().stream().map(i -> interestService.findInterestByName(i).orElseGet(() -> interestService.addInterest(i))).collect(Collectors.toSet()));
         return appUserRepository.save(user);
     }
 

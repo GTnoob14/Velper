@@ -8,7 +8,7 @@ axios.defaults.withCredentials = true;
 // axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
 
 let api = axios.create({
-    baseURL: "http://localhost:8081/api/v1/",
+    baseURL: "http://192.168.178.65:8081/api/v1/",
     withCredentials: true,
     xsrfCookieName: '_csrf',
     xsrfHeaderName: 'X-XSRF-TOKEN'

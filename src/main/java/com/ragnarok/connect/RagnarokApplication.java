@@ -24,7 +24,7 @@ public class RagnarokApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedOrigins("http://localhost:3000", "http://localhost:8081")
+						.allowedOrigins("http://localhost:3000", "http://192.168.178.65:3000", "http://localhost:8081", "http://192.168.178.65:8081")
 						.allowCredentials(true)
 						.allowedMethods("GET", "POST", "PUT", "DELETE");
 			}
