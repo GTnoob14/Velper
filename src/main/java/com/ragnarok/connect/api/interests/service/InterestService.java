@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class InterestService {
     }
 
     public Set<Interest> getInterests(){
-        return (Set<Interest>) interestRepository.findAll();
+        return interestRepository.findAll().stream().collect(Collectors.toSet());
     }
 
     public Interest addInterest(String interest){

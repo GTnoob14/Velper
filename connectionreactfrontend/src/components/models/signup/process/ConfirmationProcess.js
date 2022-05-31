@@ -16,7 +16,7 @@ class ConfirmationProcess extends Component {
             type="code"
             required
             value={this.props.verificationCode}
-            onChange={e => this.props.updateVerficationCode(e.target.value)}
+            onChange={e => this.props.updateVerificationCode(e.target.value)}
             style={textFieldStyle}
         /><br />
       </div>

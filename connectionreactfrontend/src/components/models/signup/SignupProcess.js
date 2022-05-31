@@ -14,8 +14,6 @@ const steps = ['Email Address', 'Email Confirmation', 'Account data'];
 export default function SignupProcess(props) {
   const [activeStep, setActiveStep] = React.useState(0);
 
-  const [verificationCode, setVerificationCode] = React.useState('');
-
   const widgets = [<IdentificationProcess 
     firstName={props.firstName}
     lastName={props.lastName}
@@ -39,8 +37,8 @@ export default function SignupProcess(props) {
     states={props.states}
     cities={props.cities}
   />, <ConfirmationProcess 
-    verificationCode={verificationCode}
-    updateVerificationCode={setVerificationCode}
+    verificationCode={props.verificationCode}
+    updateVerificationCode={props.updateVerificationCode}
   />, <AccountProcess 
     biography={props.biography}
     interests={props.interests}
@@ -58,17 +56,17 @@ export default function SignupProcess(props) {
   const nextFuncs = [
     () => {
         //send email to server, to be able to get verification code
-
+        props.signup();
         handleNext();
     },
     () => {
         //send verification code to server, to be able to verify the account
-
+        props.confirm();
         handleNext();
     },
     () => {
         //send all data to server, to create account
-        props.signup();
+        props.updateSignup();
         handleNext();
     }
   ];
