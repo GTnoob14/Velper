@@ -122,15 +122,44 @@ class Signup extends React.Component{
 
   confirm = () => {
     ConfirmationController.confirmAccount(this.state.confirmationToken, this.state.email).then(() => {
-
+      UserRequests.login(this.state.email, this.state.password, true).then(() => {
+        window.location.href = window.location.href + '?con=2';
+      }).catch(err => {
+        console.log(err);
+        alert('Couldn\'t log in');
+      });
     }).catch(err => {
       console.log(err);
     });
 
   }
 
-  render(){
+  updateSignup = () => {
+    const userModel = new UserModel(
+      null,
+      null,//this.state.firstName,
+      null,//this.state.lastName,
+      null,//this.state.password,
+      null,//this.state.email,
+      null,//this.state.age,
+      null,//this.state.country.iso2,
+      null,//this.state.state.name,
+      null,//this.state.city.name,
+      this.state.biography,
+      [...this.state.interests],
+      null
+    );
+    UserRequests.updateUser(userModel).then(() => {
+      
+    }).catch(err => {
+      console.log(err);
+    })
+  }
 
+  render(){
+    const windowUrl = window.location.search;
+    const step = new URLSearchParams(windowUrl).get('con');
+    
     let func = null;
     if(this.props.submitFunc !== undefined){
       func = () => {
@@ -158,9 +187,11 @@ class Signup extends React.Component{
         <h1>Sign up</h1>
         <Divider />
         <SignupProcess 
+          step={step}
+
           signup={func}
           confirm={this.confirm}
-          //updateSignup={}
+          updateSignup={this.updateSignup}
 
           firstName={this.state.firstName}
           lastName={this.state.lastName}

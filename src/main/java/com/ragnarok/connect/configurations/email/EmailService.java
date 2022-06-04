@@ -31,8 +31,9 @@ public class EmailService implements EmailSender{
             helper.setSubject(subject);
             helper.setText(email, true);
             helper.setTo(to);
-            helper.setFrom("gtkds007@gmail.com");
+            //helper.setFrom("gtkds007@gmail.com");
 
+            mailSender.send(message);
         } catch (MessagingException me){
             LOGGER.error("failed to send email", me);
             throw new IllegalStateException("failed to send email");

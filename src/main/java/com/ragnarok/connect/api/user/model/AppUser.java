@@ -5,6 +5,7 @@ import com.ragnarok.connect.configurations.security.authorities.Authority;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Entity(name = "users")
 @NoArgsConstructor
+@ToString
 public class AppUser implements UserDetails {
 
     @Id

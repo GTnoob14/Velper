@@ -13,6 +13,10 @@ const steps = ['Email Address', 'Email Confirmation', 'Account data'];
 
 export default function SignupProcess(props) {
   const [activeStep, setActiveStep] = React.useState(0);
+  
+  React.useEffect(() => {
+    setActiveStep(props.step || 0);
+  }, []);
 
   const widgets = [<IdentificationProcess 
     firstName={props.firstName}
@@ -62,7 +66,7 @@ export default function SignupProcess(props) {
     () => {
         //send verification code to server, to be able to verify the account
         props.confirm();
-        handleNext();
+        //handleNext();
     },
     () => {
         //send all data to server, to create account

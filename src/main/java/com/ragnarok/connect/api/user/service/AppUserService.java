@@ -78,15 +78,24 @@ public class AppUserService implements UserDetailsService {
     public AppUser updateUser(Long id, ResourceAppUser resourceAppUser) {
         AppUser user = appUserRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException(id.toString()));
-        user.setFirstname(resourceAppUser.getFirstname());
-        user.setLastname(resourceAppUser.getLastname());
-        user.setEmail(resourceAppUser.getEmail());
-        user.setAge(resourceAppUser.getAge());
-        user.setCountry(resourceAppUser.getCountry());
-        user.setState(resourceAppUser.getState());
-        user.setCity(resourceAppUser.getCity());
-        user.setBiography(resourceAppUser.getBiography());
-        user.setInterests(resourceAppUser.getInterests() == null ? null : resourceAppUser.getInterests().stream().map(i -> interestService.findInterestByName(i).orElseGet(() -> interestService.addInterest(i))).collect(Collectors.toSet()));
+        if(resourceAppUser.getFirstname() != null)
+            user.setFirstname(resourceAppUser.getFirstname());
+        if(resourceAppUser.getLastname() != null)
+            user.setLastname(resourceAppUser.getLastname());
+        if(resourceAppUser.getEmail() != null)
+            user.setEmail(resourceAppUser.getEmail());
+        if(resourceAppUser.getAge() != null)
+            user.setAge(resourceAppUser.getAge());
+        if(resourceAppUser.getCountry() != null)
+            user.setCountry(resourceAppUser.getCountry());
+        if(resourceAppUser.getState() != null)
+            user.setState(resourceAppUser.getState());
+        if(resourceAppUser.getCity() != null)
+            user.setCity(resourceAppUser.getCity());
+        if(resourceAppUser.getBiography() != null)
+            user.setBiography(resourceAppUser.getBiography());
+        if(resourceAppUser.getInterests() != null)
+            user.setInterests(resourceAppUser.getInterests().stream().map(i -> interestService.findInterestByName(i).orElseGet(() -> interestService.addInterest(i))).collect(Collectors.toSet()));
         return appUserRepository.save(user);
     }
 
