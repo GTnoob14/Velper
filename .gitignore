@@ -38,5 +38,5 @@ out/
 .vscode/
 
 ### React Build Files ###
-/src/main/resources/static/**
-/src/main/resources/templates/**
+#/src/main/resources/static/**
+#/src/main/resources/templates/**
