@@ -32,7 +32,7 @@ function UpdateOwnProfilePage() {
           </Typography>
         </Toolbar>
       </AppBar>
-        <Signup 
+        <Signup
             submitFunc={(model) => {
                 UserController.updateUser(model).then(res => {
                     alert("Profile was updated!");

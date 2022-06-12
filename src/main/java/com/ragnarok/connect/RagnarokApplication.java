@@ -16,8 +16,36 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Controller
 public class RagnarokApplication {
 
-	@GetMapping(value = "/*")
+	@GetMapping(value = "/index.html")
+	public String getReactAppIndex(){
+		return "index";
+	}
+	@GetMapping(value = "/profile")
+	public String getReactAppProfile(){
+		return "index";
+	}
+	@GetMapping(value = "/profile/update")
+	public String getReactAppProfileUpdate(){
+		return "index";
+	}
+	@GetMapping(value = "/")
 	public String getReactApp(){
+		return "index";
+	}
+	@GetMapping(value = "/chat")
+	public String getReactAppChat(){
+		return "index";
+	}
+	@GetMapping(value = "/find")
+	public String getReactAppFind(){
+		return "index";
+	}
+	@GetMapping(value = "/signup")
+	public String getReactAppSignup(){
+		return "index";
+	}
+	@GetMapping(value = "/login")
+	public String getReactAppLogin(){
 		return "index";
 	}
 

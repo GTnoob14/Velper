@@ -22,9 +22,11 @@ public class ConfirmationService {
     @Autowired
     private final AppUserRepository appUserRepository;
 
-    public void confirmToken(String email, String token){
-        ConfirmationToken confirmationToken = confirmationRepository.findByToken(token).get();
-        assert confirmationToken.getAppUser().getUsername().equals(email);
+    public void confirmToken(String email, String token) throws ConfirmationCodeMismatchException, ConfirmationCodeNotFoundException {
+        ConfirmationToken confirmationToken = confirmationRepository.findByToken(token).orElseThrow(() -> new ConfirmationCodeNotFoundException(token));
+        if(!confirmationToken.getAppUser().getUsername().equals(email)){
+            throw new ConfirmationCodeMismatchException(String.format("%s isn't code of %s", token, email));
+        }
         confirmationRepository.delete(confirmationToken);
         AppUser appUser = appUserRepository.findByEmail(email).get();
         appUser.setEnabled(true);
