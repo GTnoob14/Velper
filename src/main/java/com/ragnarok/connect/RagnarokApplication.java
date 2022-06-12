@@ -7,11 +7,47 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
+@Controller
 public class RagnarokApplication {
+
+	@GetMapping(value = "/index.html")
+	public String getReactAppIndex(){
+		return "index";
+	}
+	@GetMapping(value = "/profile")
+	public String getReactAppProfile(){
+		return "index";
+	}
+	@GetMapping(value = "/profile/update")
+	public String getReactAppProfileUpdate(){
+		return "index";
+	}
+	@GetMapping(value = "/")
+	public String getReactApp(){
+		return "index";
+	}
+	@GetMapping(value = "/chat")
+	public String getReactAppChat(){
+		return "index";
+	}
+	@GetMapping(value = "/find")
+	public String getReactAppFind(){
+		return "index";
+	}
+	@GetMapping(value = "/signup")
+	public String getReactAppSignup(){
+		return "index";
+	}
+	@GetMapping(value = "/login")
+	public String getReactAppLogin(){
+		return "index";
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(RagnarokApplication.class, args);

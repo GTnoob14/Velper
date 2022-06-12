@@ -21,6 +21,7 @@ export default function InterestSelect(props) {
           variant={props.variant}
           required
           value={props.value}
+          autoComplete={'off'}
           inputProps={{
             ...params.inputProps,
             autoComplete: 'new-password', // disable autocomplete and autofill

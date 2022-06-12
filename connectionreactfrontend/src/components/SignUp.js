@@ -5,6 +5,8 @@ import { Divider } from "@mui/material";
 import SignupProcess from "./models/signup/SignupProcess";
 import cscController from '../api/csc/CSC_Controller';
 import InterestController from "../api/interests/InterestsController";
+import ConfirmationController from '../api/user/confirmation/ConfirmationController';
+
 
 class Signup extends React.Component{
   constructor(props){
@@ -18,6 +20,7 @@ class Signup extends React.Component{
       country: {id: undefined, name: '', iso2: ''},
       state: {id: undefined, name: '', iso2: ''},
       city: {id: undefined, name: ''},
+      confirmationToken: '',
       biography: '',
       interests: new Set(),
 
@@ -81,6 +84,9 @@ class Signup extends React.Component{
   updateCity = (_city) => {
     this.setState({city: _city});
   }
+  updateConfirmationToken = (_confirmationToken) => {
+    this.setState({confirmationToken: _confirmationToken});
+  }
   updateBiography = (_biography) => {
     this.setState({biography: _biography});
   }
@@ -107,15 +113,53 @@ class Signup extends React.Component{
     console.log(userModel);
 
     UserRequests.signUp(userModel).then(() => {
-      window.location.href = '/';
+      //window.location.href = '/';
     }).catch(err => {
       console.log(err);
       alert('Something went wrong!')
     });
   }
 
-  render(){
+  confirm = () => {
+    ConfirmationController.confirmAccount(this.state.confirmationToken, this.state.email).then(() => {
+      UserRequests.login(this.state.email, this.state.password, true).then(() => {
+        window.location.href = window.location.href + '?con=2';
+      }).catch(err => {
+        console.log(err);
+        alert('Couldn\'t log in');
+      });
+    }).catch(err => {
+      console.log(err);
+    });
 
+  }
+
+  updateSignup = () => {
+    const userModel = new UserModel(
+      null,
+      null,//this.state.firstName,
+      null,//this.state.lastName,
+      null,//this.state.password,
+      null,//this.state.email,
+      null,//this.state.age,
+      null,//this.state.country.iso2,
+      null,//this.state.state.name,
+      null,//this.state.city.name,
+      this.state.biography,
+      [...this.state.interests],
+      null
+    );
+    UserRequests.updateUser(userModel).then(() => {
+      
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+
+  render(){
+    const windowUrl = window.location.search;
+    const step = new URLSearchParams(windowUrl).get('con');
+    
     let func = null;
     if(this.props.submitFunc !== undefined){
       func = () => {
@@ -143,7 +187,11 @@ class Signup extends React.Component{
         <h1>Sign up</h1>
         <Divider />
         <SignupProcess 
+          step={step}
+
           signup={func}
+          confirm={this.confirm}
+          updateSignup={this.updateSignup}
 
           firstName={this.state.firstName}
           lastName={this.state.lastName}
@@ -153,6 +201,9 @@ class Signup extends React.Component{
           country={this.state.country}
           state={this.state.state}
           city={this.state.city}
+
+          verificationCode={this.state.confirmationToken}
+
           biography={this.state.biography}
           interests={this.state.interests}
 
@@ -164,6 +215,9 @@ class Signup extends React.Component{
           updateCountry={this.updateCountry}
           updateState={this.updateState}
           updateCity={this.updateCity}
+
+          updateVerificationCode={this.updateConfirmationToken}
+
           updateBiography={this.updateBiography}
           updateInterests={this.updateInterests}
 

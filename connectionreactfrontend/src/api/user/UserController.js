@@ -25,7 +25,7 @@ async function signUp(userModel){
 
 async function login(email, password, remember_me){
     const data = {username: email, password: password, 'remember-me': remember_me};
-    return await axios.post('http://192.168.178.65:8081/login', qs.stringify(data), {
+    return await axios.post('http://localhost:8081/login', qs.stringify(data), {
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     });
 }

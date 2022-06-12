@@ -1,10 +1,12 @@
 package com.ragnarok.connect.api.user.service;
 
-import com.ragnarok.connect.api.interests.model.Interest;
 import com.ragnarok.connect.api.interests.service.InterestService;
+import com.ragnarok.connect.api.user._res.confirmation.model.ConfirmationToken;
+import com.ragnarok.connect.api.user._res.confirmation.service.ConfirmationService;
 import com.ragnarok.connect.api.user.model.AppUser;
 import com.ragnarok.connect.api.user.model.ResourceAppUser;
 import com.ragnarok.connect.api.user.repository.AppUserRepository;
+import com.ragnarok.connect.configurations.email.EmailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,6 +30,10 @@ public class AppUserService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private final InterestService interestService;
+    @Autowired
+    private final ConfirmationService confirmationService;
+    @Autowired
+    private final EmailSender emailSender;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -52,7 +57,7 @@ public class AppUserService implements UserDetailsService {
     }
 
     public void createUser(ResourceAppUser resourceAppUser) {
-        appUserRepository.save(new AppUser(
+        AppUser appUser = appUserRepository.save(new AppUser(
                 resourceAppUser.getFirstname(),
                 resourceAppUser.getLastname(),
                 resourceAppUser.getEmail(),
@@ -64,20 +69,33 @@ public class AppUserService implements UserDetailsService {
                 resourceAppUser.getBiography(),
                 resourceAppUser.getInterests() == null ? null : resourceAppUser.getInterests().stream().map(i -> interestService.findInterestByName(i).orElseGet(() -> interestService.addInterest(i))).collect(Collectors.toSet())
         ));
+
+        ConfirmationToken token = confirmationService.saveConfirmationToken(appUser);
+
+        emailSender.send(appUser.getUsername(), "Verification Code for Ragnarok", String.format("Verification Code: %s", token.getToken()));
     }
 
     public AppUser updateUser(Long id, ResourceAppUser resourceAppUser) {
         AppUser user = appUserRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException(id.toString()));
-        user.setFirstname(resourceAppUser.getFirstname());
-        user.setLastname(resourceAppUser.getLastname());
-        user.setEmail(resourceAppUser.getEmail());
-        user.setAge(resourceAppUser.getAge());
-        user.setCountry(resourceAppUser.getCountry());
-        user.setState(resourceAppUser.getState());
-        user.setCity(resourceAppUser.getCity());
-        user.setBiography(resourceAppUser.getBiography());
-        user.setInterests(resourceAppUser.getInterests() == null ? null : resourceAppUser.getInterests().stream().map(i -> interestService.findInterestByName(i).orElseGet(() -> interestService.addInterest(i))).collect(Collectors.toSet()));
+        if(resourceAppUser.getFirstname() != null)
+            user.setFirstname(resourceAppUser.getFirstname());
+        if(resourceAppUser.getLastname() != null)
+            user.setLastname(resourceAppUser.getLastname());
+        if(resourceAppUser.getEmail() != null)
+            user.setEmail(resourceAppUser.getEmail());
+        if(resourceAppUser.getAge() != null)
+            user.setAge(resourceAppUser.getAge());
+        if(resourceAppUser.getCountry() != null)
+            user.setCountry(resourceAppUser.getCountry());
+        if(resourceAppUser.getState() != null)
+            user.setState(resourceAppUser.getState());
+        if(resourceAppUser.getCity() != null)
+            user.setCity(resourceAppUser.getCity());
+        if(resourceAppUser.getBiography() != null)
+            user.setBiography(resourceAppUser.getBiography());
+        if(resourceAppUser.getInterests() != null)
+            user.setInterests(resourceAppUser.getInterests().stream().map(i -> interestService.findInterestByName(i).orElseGet(() -> interestService.addInterest(i))).collect(Collectors.toSet()));
         return appUserRepository.save(user);
     }
 
