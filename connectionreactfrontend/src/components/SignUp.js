@@ -1,7 +1,7 @@
 import React from "react";
 import UserRequests from '../api/user/UserController';
 import UserModel from "../api/_models/User.datamodel";
-import { Divider } from "@mui/material";
+import { Button, Divider, Typography } from "@mui/material";
 import SignupProcess from "./models/signup/SignupProcess";
 import cscController from '../api/csc/CSC_Controller';
 import InterestController from "../api/interests/InterestsController";
@@ -226,6 +226,20 @@ class Signup extends React.Component{
           cities={this.state.cities}
           interestList={this.state.interestList}
         />
+        <Typography
+          style={{opacity: '0.5', display: 'inline-block'}}
+        >
+                Already have an account?
+            </Typography>
+            <Button 
+              variant='text'
+              style={{textTransform: 'none', display: 'inline-block'}}
+              onClick={() => {
+                  window.location.href = '/login';
+              }}
+            >
+                Log in
+            </Button>
       </>
     );
   }

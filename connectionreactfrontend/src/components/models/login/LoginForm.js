@@ -2,6 +2,7 @@ import React from "react";
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
+import { Typography } from "@mui/material";
 
 const style = {
     '': ''
@@ -57,6 +58,20 @@ function LoginForm(props) {
                 Login
                 </Button>
             </div>
+            <Typography
+                style={{opacity: '0.5', display: 'inline-block'}}
+            >
+                Don't have an account yet?
+            </Typography>
+            <Button 
+                variant='text'
+                style={{textTransform: 'none', display: 'inline-block'}}
+                onClick={() => {
+                    window.location.href = '/signup';
+                }}
+            >
+                Sign up
+            </Button>
         </div>
     )
 }
