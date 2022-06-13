@@ -15,7 +15,7 @@ function ProfileCard(props) {
           <Typography variant="body2" color="text.secondary">
             {`${props.city}, ${props.country} (${props.state})`}
           </Typography>
-          <Typography variant="body1" color="text.primary">
+          <Typography variant="body1" color="text.primary" style={{textJustify: 'inter-character'}}>
             { props.biography }
           </Typography>
           <Box>
