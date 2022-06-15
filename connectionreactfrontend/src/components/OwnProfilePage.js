@@ -3,7 +3,9 @@ import UserController from "../api/user/UserController";
 import Navbar from "./models/_partials/Navbar";
 import ProfileCard from "./models/ProfileCard";
 import { useNavigate } from 'react-router-dom';
-import { Divider } from "@mui/material";
+import { Divider, IconButton, Toolbar, Typography } from "@mui/material";
+import Logout from '@mui/icons-material/Logout';
+import { Box } from "@mui/system";
 
 //Wrapper for _OwnProfilePage to guarantee usage of navigate
 function OwnProfilePage (props){
@@ -44,7 +46,18 @@ class _OwnProfilePage extends React.Component{
                     </>
                 ) : (
                     <>
-                        <h1>Your Profile</h1>
+                        <Box sx={{ flexGrow: 1 }}>
+                            <Toolbar>
+                                <h1 style={{ flexGrow: 1 }}>Your Profile</h1>
+                                    <IconButton edge="end" onClick={() => {
+                                        UserController.logout().then(() => {
+                                            window.location.reload();
+                                        });
+                                    }}>
+                                        <Logout />
+                                    </IconButton>
+                            </Toolbar>
+                        </Box>
                         <Divider />
                         <div align="center" style={{margin: "20px"}}>
                             <ProfileCard

@@ -31,7 +31,7 @@ async function login(email, password, remember_me){
 }
 
 async function logout(){
-    return await axios.get('http://localhost:8081/logout');
+    return await axios.post('http://localhost:8081/logout');
 }
 
 async function updateUser(userModel){
@@ -48,6 +48,7 @@ let exports = {
     getUser,
     signUp,
     login,
+    logout,
     updateUser,
     deleteUser
 };
