@@ -21,11 +21,11 @@ public class AppUserController {
     @Autowired
     private final AppUserService appUserService;
 
-    //TODO ONLY FOR DEBUG
-    @GetMapping(path="/all")
-    public List<AppUser> getUsers(){
-        return appUserService.getAllUsers();
-    }
+//    //TODO ONLY FOR DEBUG
+//    @GetMapping(path="/all")
+//    public List<AppUser> getUsers(){
+//        return appUserService.getAllUsers();
+//    }
 
     @GetMapping
     public AppUserReturnable getUser(@AuthenticationPrincipal AppUser appUser){

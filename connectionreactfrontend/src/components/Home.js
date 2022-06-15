@@ -5,7 +5,6 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Navbar from './models/_partials/Navbar';
 import TextBoxField from './models/_partials/TextBoxField';
-import ProfileCard from './models/ProfileCard';
 
 function ButtonAppBar(props) {
   return (
@@ -33,6 +32,9 @@ function Home(props) {
               Velper
             </Typography>
           </div>
+          <Typography sx={{color: 'gray', fontWeight: 'bold', paddingTop: '20px'}} variant='h4'>
+            Find meaningful friendships
+          </Typography>
           <div style={{
             display: 'flex',
             justifyContent: 'center',
@@ -62,7 +64,7 @@ function Home(props) {
               <Button sx={{margin: '20px'}} variant="contained" color="primary" onClick={() => window.location.href = '/login'}>Login</Button>
             </div>
             {/* Example Profile */}
-            <div style={{display: 'flex', justifyContent: 'center', }}>
+            {/* <div style={{display: 'flex', justifyContent: 'center', }}>
               <ProfileCard
                 friend={true}
                 firstname={'Noah'}
@@ -80,7 +82,7 @@ function Home(props) {
                 addToFriends={() => {}}
                 next={() => {}}
               />
-            </div>
+            </div> */}
           </div>
         </Box>
         <Box sx={{display: { xs: 'block', sm: 'none' }}}>
@@ -90,6 +92,9 @@ function Home(props) {
             <Typography sx={{color: "white", paddingTop: '10vh'}} variant="h2">
               Velper
             </Typography>
+            <Typography sx={{color: '#9E9E9E ', fontWeight: 'bold', paddingTop: '55vh'}} variant='h6'>
+            Find meaningful friendships
+          </Typography>
           </div>
         </Box>
         {/* <a href='https://pngtree.com/free-backgrounds'>free background photos from pngtree.com/</a> */}

@@ -30,6 +30,10 @@ async function login(email, password, remember_me){
     });
 }
 
+async function logout(){
+    return await axios.get('http://localhost:8081/logout');
+}
+
 async function updateUser(userModel){
     const res = (await api.put('/user', userModel)).data;
     return convertToUserModel(res);

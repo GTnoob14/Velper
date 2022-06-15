@@ -8,10 +8,11 @@ import Typography from '@mui/material/Typography';
 import IdentificationProcess from './process/IdentificationProcess';
 import ConfirmationProcess from './process/ConfirmationProcess';
 import AccountProcess from './process/AccountProcess';
-
+import { useNavigate } from 'react-router-dom';
 const steps = ['Email Address', 'Email Confirmation', 'Account data'];
 
 export default function SignupProcess(props) {
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
   
   React.useEffect(() => {
@@ -57,25 +58,33 @@ export default function SignupProcess(props) {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
+  const handleEnd = () => {
+    setActiveStep((prevActiveStep) => 2);
+  };
+
   const nextFuncs = [
     () => {
         //send email to server, to be able to get verification code
-        props.signup();
-        handleNext();
+       
+        if(props.skipConf !== null && props.skipConf)
+          handleEnd();
+        else{
+          props.signup();
+          handleNext();
+        }
     },
     () => {
         //send verification code to server, to be able to verify the account
+        
         props.confirm();
         //handleNext();
     },
     () => {
         //send all data to server, to create account
         props.updateSignup();
-        handleNext();
+        //useNavigate('/');
     }
   ];
-
-  
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -89,10 +98,14 @@ export default function SignupProcess(props) {
     <Box sx={{ margin: '20px' }}>
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => {
+          const disabled = index === 1 && props.skipConf;
+
           const stepProps = {};
           const labelProps = {};
+          if(disabled)
+            labelProps.optional = (<Typography variant="caption">Disabled</Typography>);
           return (
-            <Step key={label} {...stepProps}>
+            <Step key={label} {...stepProps} disabled={disabled}>
               <StepLabel {...labelProps}>{label}</StepLabel>
             </Step>
           );
