@@ -8,11 +8,9 @@ import Typography from '@mui/material/Typography';
 import IdentificationProcess from './process/IdentificationProcess';
 import ConfirmationProcess from './process/ConfirmationProcess';
 import AccountProcess from './process/AccountProcess';
-import { useNavigate } from 'react-router-dom';
 const steps = ['Email Address', 'Email Confirmation', 'Account data'];
 
 export default function SignupProcess(props) {
-  const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
   
   React.useEffect(() => {
@@ -82,7 +80,6 @@ export default function SignupProcess(props) {
     () => {
         //send all data to server, to create account
         props.updateSignup();
-        //useNavigate('/');
     }
   ];
 

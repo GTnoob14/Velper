@@ -25,7 +25,7 @@ public class FriendService {
     private final AppUserService appUserService;
 
     public List<AppUser> findPotentialFriends(AppUser user, SearchSettings searchSettings) {
-        //TODO find all people with same country, then sort by distance, then look for mutual friends, then look for similar interests
+        //TODO find all people with same country/city/state, then sort by distance, then look for mutual friends, then look for similar interests
         List<AppUser> potentialFriends;
         switch(searchSettings.getScope()){
             case city_scope:

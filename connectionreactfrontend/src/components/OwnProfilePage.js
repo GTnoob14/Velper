@@ -3,7 +3,7 @@ import UserController from "../api/user/UserController";
 import Navbar from "./models/_partials/Navbar";
 import ProfileCard from "./models/ProfileCard";
 import { useNavigate } from 'react-router-dom';
-import { Divider, IconButton, Toolbar, Typography } from "@mui/material";
+import { Divider, IconButton, Toolbar } from "@mui/material";
 import Logout from '@mui/icons-material/Logout';
 import { Box } from "@mui/system";
 

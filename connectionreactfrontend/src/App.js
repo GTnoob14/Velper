@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
-import './App.css';
-import Login from './components/Login';
-import OwnProfilePage from './components/OwnProfilePage';
-import Signup from './components/SignUp';
-import Home from './components/Home';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import ChatPage from './components/ChatPage';
-import FindPage from './components/FindPage';
-import UpdateOwnProfilePage from './components/UpdateOwnProfilePage';
+
+import './App.css';
+const Login = lazy(() => import('./components/Login'));
+const OwnProfilePage = lazy(() => import('./components/OwnProfilePage'));
+const Signup = lazy(() => import('./components/SignUp'));
+const Home = lazy(() => import('./components/Home'));
+
+
+const ChatPage = lazy(() => import('./components/ChatPage'));
+const FindPage = lazy(() => import('./components/FindPage'));
+const UpdateOwnProfilePage = lazy(() => import('./components/UpdateOwnProfilePage'));
 
 const theme = createTheme({
   palette: {
@@ -24,17 +27,19 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <Router>
-          <Routes>
-            <Route path='/' element={<Home key="home_page" />} />
-            <Route path='/signup' element={<Signup key="signup_page" />}/>
-            <Route path='/login' element={<Login key="login_page" />}/>
-            <Route path='/find' element={<FindPage key="find_page" />} />
-            <Route path='/chat' element={<ChatPage key="chat_page" />} />
-            <Route path='/profile' element={<OwnProfilePage key="ownprofilepage_page" />}/>
-            <Route path='/profile/update' element={<UpdateOwnProfilePage key="updateownprofilepage_page" />}/>
-          </Routes>
-        </Router>
+        <Suspense fallback={<div />}>
+          <Router>
+            <Routes>
+              <Route path='/' element={<Home key="home_page" />} />
+              <Route path='/signup' element={<Signup key="signup_page" />}/>
+              <Route path='/login' element={<Login key="login_page" />}/>
+              <Route path='/find' element={<FindPage key="find_page" />} />
+              <Route path='/chat' element={<ChatPage key="chat_page" />} />
+              <Route path='/profile' element={<OwnProfilePage key="ownprofilepage_page" />}/>
+              <Route path='/profile/update' element={<UpdateOwnProfilePage key="updateownprofilepage_page" />}/>
+            </Routes>
+          </Router>
+        </Suspense>
       </div>
     </ThemeProvider>
   );

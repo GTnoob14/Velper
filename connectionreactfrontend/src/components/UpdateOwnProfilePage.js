@@ -6,7 +6,6 @@ import IconButton from '@mui/material/IconButton';
 import { ArrowBackIos } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { Typography } from '@mui/material';
-import Signup from './SignUp';
 import UserController from '../api/user/UserController';
 import InterestController from '../api/interests/InterestsController';
 import cscController from '../api/csc/CSC_Controller';
