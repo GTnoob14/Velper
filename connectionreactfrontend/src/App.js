@@ -3,7 +3,6 @@ import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-import './App.css';
 const Login = lazy(() => import('./components/Login'));
 const OwnProfilePage = lazy(() => import('./components/OwnProfilePage'));
 const Signup = lazy(() => import('./components/SignUp'));
@@ -26,7 +25,7 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <div className="App">
+      <div className="App" style={{textAlign: 'center'}}>
         <Suspense fallback={<div />}>
           <Router>
             <Routes>

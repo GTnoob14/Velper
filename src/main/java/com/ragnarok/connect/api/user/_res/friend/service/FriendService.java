@@ -41,7 +41,7 @@ public class FriendService {
             default:
                 throw new IllegalArgumentException(String.format("Scope %s is not defined!", searchSettings.getScope().toString()));
         }
-        return potentialFriends.stream().filter(friend -> !user.getFriendList().contains(friend.getPublicid()) && user.getPublicid() != friend.getPublicid()).collect(Collectors.toList());
+        return potentialFriends.stream().filter(friend -> !user.getFriendList().contains(friend.getPublicid()) && user.getPublicid() != friend.getPublicid()).sorted((f1, f2) -> Boolean.compare(f2.getFriendList().contains(user.getPublicid()), f1.getFriendList().contains(user.getPublicid()))).collect(Collectors.toList());
     }
 
     public List<AppUser> getFriends(AppUser user) {

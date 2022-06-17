@@ -52,12 +52,12 @@ class CUpdateOwnProfilePage extends React.Component{
         email: res.email,
         password: res.password,
         age: res.age,
-        country: res.country,
-        state: res.state,
-        city: res.city,
+        country: {id: '', name: '', iso2: res.country},
+        state: {id: '', name: res.state, iso2: ''},
+        city: {id: '', name: res.city},
         confirmationToken: res.confirmationToken,
         biography: res.biography,
-        interests: res.interests,
+        interests: res.interests.map(i => i.interest),
       });
     });
 
