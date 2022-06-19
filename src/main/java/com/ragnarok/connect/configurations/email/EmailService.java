@@ -31,7 +31,7 @@ public class EmailService implements EmailSender{
             helper.setSubject(subject);
             helper.setText(email, true);
             helper.setTo(to);
-            //helper.setFrom("gtkds007@gmail.com");
+            //helper.setFrom("velper");
 
             mailSender.send(message);
         } catch (MessagingException me){

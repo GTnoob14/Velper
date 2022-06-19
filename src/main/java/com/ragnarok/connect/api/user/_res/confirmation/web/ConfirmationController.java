@@ -6,10 +6,8 @@ import com.ragnarok.connect.api.user._res.confirmation.service.ConfirmationCodeN
 import com.ragnarok.connect.api.user._res.confirmation.service.ConfirmationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,9 +22,30 @@ public class ConfirmationController {
         try {
             confirmationService.confirmToken(resourceConfirmationToken.getEmail(), resourceConfirmationToken.getToken());
         } catch(ConfirmationCodeMismatchException confirmationCodeMismatchException){
-            throw new ConfirmationCodeException();
+            throw new ConfirmationCodeException(confirmationCodeMismatchException);
         } catch(ConfirmationCodeNotFoundException confirmationCodeNotFoundException){
-            throw new ConfirmationCodeException();
+            throw new ConfirmationCodeException(confirmationCodeNotFoundException);
         }
+    }
+}
+
+@Controller
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/user/token")
+class ConfirmationControllerLink{
+
+    @Autowired
+    private final ConfirmationService confirmationService;
+
+    @GetMapping("/{email}/{token}")
+    public String confirmAccountWithLink(@PathVariable(name="email") String email, @PathVariable(name="token") String token){
+        try {
+            confirmationService.confirmToken(email, token);
+        } catch(ConfirmationCodeMismatchException confirmationCodeMismatchException){
+            throw new ConfirmationCodeException(confirmationCodeMismatchException);
+        } catch(ConfirmationCodeNotFoundException confirmationCodeNotFoundException){
+            throw new ConfirmationCodeException(confirmationCodeNotFoundException);
+        }
+        return "redirect:/login";
     }
 }

@@ -1,4 +1,5 @@
 class UserModel{
+
     constructor(public_id, firstname, lastname, password, email, age, country, state, city, biography, interests, friendIdList){
         this.public_id = public_id;
         this.firstname = firstname;

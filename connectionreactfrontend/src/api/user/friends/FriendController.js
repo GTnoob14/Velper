@@ -15,7 +15,7 @@ function convertToUsermodelList(data){
                 e.city,
                 e.biography,
                 e.interests,
-                null
+                null,
             )
         });
 }

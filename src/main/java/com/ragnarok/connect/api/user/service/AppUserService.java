@@ -72,7 +72,7 @@ public class AppUserService implements UserDetailsService {
 
         ConfirmationToken token = confirmationService.saveConfirmationToken(appUser);
 
-        emailSender.send(appUser.getUsername(), "Verification Code for Ragnarok", String.format("Verification Code: %s", token.getToken()));
+        emailSender.send(appUser.getUsername(), "Verification Code for Velper.net", String.format("Verification Code: %s\nor\nVerification Link: https://velper.net/api/v1/user/token/%s/%s", token.getToken(), appUser.getUsername(), token.getToken()));
     }
 
     public AppUser updateUser(Long id, ResourceAppUser resourceAppUser) {
