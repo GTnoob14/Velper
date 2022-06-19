@@ -5,7 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import { ArrowBackIos } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { Typography } from '@mui/material';
+import { CircularProgress, Typography } from '@mui/material';
 import UserController from '../api/user/UserController';
 import InterestController from '../api/interests/InterestsController';
 import cscController from '../api/csc/CSC_Controller';
@@ -29,10 +29,10 @@ class CUpdateOwnProfilePage extends React.Component{
       email: '',
       password: '',
       age: '',
-      country: {id: undefined, name: '', iso2: ''},
-      state: {id: undefined, name: '', iso2: ''},
-      city: {id: undefined, name: ''},
-      confirmationToken: '',
+      country: {id: null, name: '', iso2: ''},
+      state: {id: null, name: '', iso2: ''},
+      city: {id: null, name: ''},
+      //confirmationToken: '',
       biography: '',
       interests: new Set(),
 
@@ -40,31 +40,48 @@ class CUpdateOwnProfilePage extends React.Component{
       states: [],
       cities: [],
 
-      interestList: new Set()
+      interestList: new Set(),
+
+      loaded: false
     }
   }
 
   componentDidMount(){
-    UserController.getUser().then(res => {
-      this.setState({
-        firstName: res.firstname,
-        lastName: res.lastname,
-        email: res.email,
-        password: res.password,
-        age: res.age,
-        country: {id: '', name: '', iso2: res.country},
-        state: {id: '', name: res.state, iso2: ''},
-        city: {id: '', name: res.city},
-        confirmationToken: res.confirmationToken,
-        biography: res.biography,
-        interests: res.interests.map(i => i.interest),
-      });
-    });
+    UserController.getUser().then(user => {
+      cscController.getAllCountries().then(countries => {
+        const user_country = countries.find(c => c.iso2 === user.country);
+        cscController.getStatesByCountry(user_country.iso2).then(states => {
+          const user_state = states.find(s => s.name === user.state);
+          cscController.getCitiesByState(user_country.iso2, user_state.iso2).then(cities => {
+            const user_city = cities.find(c => c.name === user.city);
+            console.log(user_country);
+            console.log(user_state);
+            console.log(user_city);
+            InterestController.getAllInterests().then(i => {
+              this.setState({
+                firstName: user.firstname,
+                lastName: user.lastname,
+                email: user.email,
+                password: user.password,
+                age: user.age,
+                country: user_country,
+                state: user_state,
+                city: user_city,
+                confirmationToken: user.confirmationToken,
+                biography: user.biography,
+                interests: user.interests.map(interest => interest.interest),
 
-    cscController.getAllCountries().then(res => {
-      InterestController.getAllInterests().then(i => {
-        this.setState({countries: res || [], interestList: new Set(i.map(ist => ist.interest)) || new Set()});
-      })
+                countries: countries || [],
+                states: states,
+                cities: cities,
+                interestList: new Set(i.map(ist => ist.interest)) || new Set(),
+              
+                loaded: true,
+              });
+            });
+          });
+        });
+      });
     });
   }
 
@@ -140,6 +157,7 @@ class CUpdateOwnProfilePage extends React.Component{
       console.log(err);
     })
   }
+
   render(){
     return (
       <Box sx={{ flexGrow: 1 }}>
@@ -160,43 +178,47 @@ class CUpdateOwnProfilePage extends React.Component{
             </Typography>
           </Toolbar>
         </AppBar>
-          <SignupProcess 
-            step={this.state.step}
+          {
+            this.state.loaded ? (
+            <SignupProcess 
+              step={this.state.step}
 
-            //signup={func}
-            updateSignup={this.updateSignup}
+              updateSignup={this.updateSignup}
 
-            firstName={this.state.firstName}
-            lastName={this.state.lastName}
-            email={this.state.email}
-            password={this.state.password}
-            age={this.state.age}
-            country={this.state.country}
-            state={this.state.state}
-            city={this.state.city}
+              firstName={this.state.firstName}
+              lastName={this.state.lastName}
+              email={this.state.email}
+              password={this.state.password}
+              age={this.state.age}
+              country={this.state.country}
+              state={this.state.state}
+              city={this.state.city}
 
-            biography={this.state.biography}
-            interests={this.state.interests}
+              biography={this.state.biography}
+              interests={this.state.interests}
 
-            updateFirstName={this.updateFirstName}
-            updateLastName={this.updateLastName}
-            updateEmail={this.updateEmail}
-            updatePassword={this.updatePassword}
-            updateAge={this.updateAge}
-            updateCountry={this.updateCountry}
-            updateState={this.updateState}
-            updateCity={this.updateCity}
+              updateFirstName={this.updateFirstName}
+              updateLastName={this.updateLastName}
+              updateEmail={this.updateEmail}
+              updatePassword={this.updatePassword}
+              updateAge={this.updateAge}
+              updateCountry={this.updateCountry}
+              updateState={this.updateState}
+              updateCity={this.updateCity}
 
-            updateBiography={this.updateBiography}
-            updateInterests={this.updateInterests}
+              updateBiography={this.updateBiography}
+              updateInterests={this.updateInterests}
 
-            countries={this.state.countries}
-            states={this.state.states}
-            cities={this.state.cities}
-            interestList={this.state.interestList}
+              countries={this.state.countries}
+              states={this.state.states}
+              cities={this.state.cities}
+              interestList={this.state.interestList}
 
-            skipConf={true}
-          />
+              skipConf={true}
+            />
+            ) : (
+            <CircularProgress sx={{marginTop: '1vh'}} />
+          )}
       </Box>
     )
   }

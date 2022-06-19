@@ -9,6 +9,7 @@ export default function CitySelect(props) {
       id="city-select-demo"
       sx={{ width: 220, margin: '0 auto'}}
       options={props.cities}
+      value={props.city}
       autoHighlight
       getOptionLabel={(option) => option.name}
       onChange={(e, v) => props.onChange(v)}

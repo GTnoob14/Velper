@@ -28,7 +28,11 @@ class Login extends React.Component{
 
     login = () => {
         UserController.login(this.state.email, this.state.password, this.state.remember_me).then((res) => {
-            window.location.href = '/';
+            UserController.getUser().then(r => {
+                window.location.href = '/';
+            }).catch(e => {
+                alert("Email or Password are wrong");
+            })
         }).catch(err => {
             alert("Something went wrong");
         });

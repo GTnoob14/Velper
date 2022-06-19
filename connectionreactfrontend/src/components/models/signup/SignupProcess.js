@@ -17,6 +17,7 @@ export default function SignupProcess(props) {
     setActiveStep(props.step || 0);
   }, []);
 
+
   const widgets = [<IdentificationProcess 
     firstName={props.firstName}
     lastName={props.lastName}

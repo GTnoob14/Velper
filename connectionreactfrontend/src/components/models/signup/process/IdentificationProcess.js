@@ -58,7 +58,7 @@ const IdentificationProcess = (props) => {
           label="Country"
           variant="filled"
           required
-          value={props.country}
+          country={props.country}
           onChange={props.updateCountry}
           style={textFieldStyle}
 
@@ -68,7 +68,7 @@ const IdentificationProcess = (props) => {
           label="State"
           variant="filled"
           required
-          value={props.state}
+          state={props.state}
           onChange={props.updateState}
           style={textFieldStyle}
 
@@ -78,7 +78,7 @@ const IdentificationProcess = (props) => {
           label="City"
           variant="filled"
           required
-          value={props.city}
+          city={props.city}
           onChange={props.updateCity}
           style={textFieldStyle}
         

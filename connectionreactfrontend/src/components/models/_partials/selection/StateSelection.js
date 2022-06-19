@@ -10,6 +10,7 @@ export default function StateSelect(props) {
       id="state-select-demo"
       sx={{ width: 220, margin: '0 auto'}}
       options={props.states}
+      value={props.state}
       autoHighlight
       getOptionLabel={(option) => option.name}
       onChange={(e, v) => props.onChange(v)}
