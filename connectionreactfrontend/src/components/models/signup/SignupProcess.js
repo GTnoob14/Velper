@@ -11,12 +11,7 @@ import AccountProcess from './process/AccountProcess';
 const steps = ['Email Address', 'Email Confirmation', 'Account data'];
 
 export default function SignupProcess(props) {
-  const [activeStep, setActiveStep] = React.useState(0);
-  
-  React.useEffect(() => {
-    setActiveStep(props.step || 0);
-  }, []);
-
+  const [activeStep, setActiveStep] = React.useState(props.step || 0);
 
   const widgets = [<IdentificationProcess 
     firstName={props.firstName}

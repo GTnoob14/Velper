@@ -22,8 +22,8 @@ public class FriendController {
     private final FriendService friendService;
 
     @GetMapping("/find")
-    public List<AppUserReturnable> findPotentialFriends(@AuthenticationPrincipal AppUser appUser, @RequestBody Optional<SearchSettings> searchSettings){
-        return friendService.findPotentialFriends(appUser, searchSettings.orElse(new SearchSettings(SearchSettings.Scope.city_scope))).stream().map(AppUser::toReturnable).collect(Collectors.toList());
+    public List<AppUserReturnable> findPotentialFriends(@AuthenticationPrincipal AppUser appUser, SearchSettings searchSettings){
+        return friendService.findPotentialFriends(appUser, searchSettings).stream().map(AppUser::toReturnable).collect(Collectors.toList());
     }
 
     @GetMapping

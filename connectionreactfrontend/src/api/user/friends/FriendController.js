@@ -20,22 +20,13 @@ function convertToUsermodelList(data){
         });
 }
 
+async function findFriendsWithSettings(SCOPE, mutualFriends, similarInterests){
+    const data = await api.get('/user/friends/find', {params: {scope: SCOPE.enum, mutualFriends: mutualFriends, similarInterests: similarInterests}});
+    const friends = convertToUsermodelList(data);
+    return friends;
+}
+
 async function findFriends(){
-    // let l = [new UserModel(
-    //     'public_id',
-    //     'Paul',
-    //     'Berger',
-    //     null,
-    //     'paul@berger.com',
-    //     23,
-    //     'United States of America',
-    //     'New York',
-    //     'Just a random guy from NYC hope we can be friends!',
-    //     ['soccer', 'cycling', 'business'],
-    //     []
-    // )];
-    //     console.log("List" + l);
-    // return l;
     const data = await api.get('/user/friends/find');
     const friends = convertToUsermodelList(data);
     return friends;
@@ -57,6 +48,7 @@ async function removeFriend(public_id){
 
 const FriendRequests = {
     findFriends,
+    findFriendsWithSettings,
     getFriends,
     addFriend,
     removeFriend

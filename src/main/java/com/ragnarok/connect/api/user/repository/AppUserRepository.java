@@ -17,5 +17,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     List<AppUser> findByCountry(String country);
     List<AppUser> findByInterestsIn(Set<Interest> interests);
     List<AppUser> findByCityAndInterestsIn(String city, Set<Interest> interest);
-    List<AppUser> findByCountryAndInterestsIn(String city, Set<Interest> interests);
+    List<AppUser> findByState(String state);
+    List<AppUser> findByStateAndInterestsIn(String state, Set<Interest> interest);
+    List<AppUser> findByCountryAndInterestsIn(String country, Set<Interest> interests);
 }

@@ -1,6 +1,5 @@
 package com.ragnarok.connect.api.user._res.friend.service;
 
-import com.ragnarok.connect.api.interests.model.Interest;
 import com.ragnarok.connect.api.user._res.friend.model.SearchSettings;
 import com.ragnarok.connect.api.user.model.AppUser;
 import com.ragnarok.connect.api.user.repository.AppUserRepository;
@@ -29,23 +28,49 @@ public class FriendService {
         List<AppUser> potentialFriends;
         switch(searchSettings.getScope()){
             case city_scope:
-                potentialFriends = appUserRepository.findByCityAndInterestsIn(user.getCity(), user.getInterests());
-                //potentialFriends = appUserRepository.findByCity(user.getCity());
+                if(searchSettings.isSimilarInterests()) {
+                    potentialFriends = appUserRepository.findByCityAndInterestsIn(user.getCity(), user.getInterests());
+                }else{
+                    potentialFriends = appUserRepository.findByCity(user.getCity());
+                }
+                break;
+            case state_scope:
+                if(searchSettings.isSimilarInterests()) {
+                    potentialFriends = appUserRepository.findByStateAndInterestsIn(user.getState(), user.getInterests());
+                }else{
+                    potentialFriends = appUserRepository.findByState(user.getState());
+                }
                 break;
             case national_scope:
-                potentialFriends = appUserRepository.findByCountryAndInterestsIn(user.getCountry(), user.getInterests());
+                if(searchSettings.isSimilarInterests()) {
+                    potentialFriends = appUserRepository.findByCountryAndInterestsIn(user.getCountry(), user.getInterests());
+                }else{
+                    potentialFriends = appUserRepository.findByCountry(user.getCountry());
+                }
                 break;
             case global_scope:
-                potentialFriends = appUserRepository.findByInterestsIn(user.getInterests());
+                if(searchSettings.isSimilarInterests()) {
+                    potentialFriends = appUserRepository.findByInterestsIn(user.getInterests());
+                }else {
+                    potentialFriends = appUserRepository.findAll();
+                }
                 break;
             default:
                 throw new IllegalArgumentException(String.format("Scope %s is not defined!", searchSettings.getScope().toString()));
         }
-        return potentialFriends.stream()
+
+        if(searchSettings.isMutualFriends()){
+            //TODO: find and prefer mutual friends
+        }
+
+        potentialFriends = potentialFriends.stream()
                 .filter(friend -> !user.getFriendList().contains(friend.getPublicid()) && //remove already added friends
                         user.getPublicid() != friend.getPublicid()) //remove yourself
                 .sorted((f1, f2) -> Boolean.compare(f2.getFriendList().contains(user.getPublicid()), f1.getFriendList().contains(user.getPublicid()))) //put people who added you first
                 .collect(Collectors.toList());
+
+
+        return potentialFriends;
     }
 
     public List<AppUser> getFriends(AppUser user) {
