@@ -54,6 +54,10 @@ public class AppUser implements UserDetails {
     //@LazyCollection(LazyCollectionOption.FALSE)
     private Set<Interest> interests;
 
+    @Getter @Setter
+    @Enumerated
+    private Gender gender;
+
     //TODO enable only when email is verified
     @Setter
     @Column(unique = false, nullable = false)
@@ -71,18 +75,18 @@ public class AppUser implements UserDetails {
     private Set<Authority> authorities;
 
     public AppUser(String firstname, String lastname, String email, String password) {
-        this(firstname, lastname, email, password, null, null, null, null);
+        this(firstname, lastname, email, password, null, null, null, null, null);
     }
 
-    public AppUser(String firstname, String lastname, String email, String password, Integer age, String country, String state, String city) {
-        this(firstname, lastname, email, password, age, country, city, state, "", new HashSet<>());
+    public AppUser(String firstname, String lastname, String email, String password, Integer age, String country, String state, String city, Gender gender) {
+        this(firstname, lastname, email, password, age, country, state, city, gender, "", new HashSet<>());
     }
 
-    public AppUser(String firstname, String lastname, String email, String password, Integer age, String country, String state, String city, String biography, Set<Interest> interests) {
-        this(firstname, lastname, email, password, age, country, state, city, biography, interests, false, new HashSet<>(), new HashSet<>());
+    public AppUser(String firstname, String lastname, String email, String password, Integer age, String country, String state, String city, Gender gender, String biography, Set<Interest> interests) {
+        this(firstname, lastname, email, password, age, country, state, city, gender, biography, interests, false, new HashSet<>(), new HashSet<>());
     }
 
-    public AppUser(String firstname, String lastname, String email, String password, Integer age, String country, String state, String city, String biography, Set<Interest> interests, boolean enabled, Set<String> friendList, Set<Authority> authorities) {
+    public AppUser(String firstname, String lastname, String email, String password, Integer age, String country, String state, String city, Gender gender, String biography, Set<Interest> interests, boolean enabled, Set<String> friendList, Set<Authority> authorities) {
         this.publicid = UUID.randomUUID().toString();
         this.firstname = firstname;
         this.lastname = lastname;
@@ -92,6 +96,7 @@ public class AppUser implements UserDetails {
         this.country = country;
         this.state = state;
         this.city = city;
+        this.gender = gender;
         this.biography = biography;
         this.interests = interests;
         this.enabled = enabled;
@@ -113,7 +118,7 @@ public class AppUser implements UserDetails {
 
     public AppUserReturnable toReturnable(){
         return new AppUserReturnable(
-                this.publicid, this.firstname, this.lastname, this.email, this.age, this.country, this.state, this.city, this.biography, getInterests(), this.friendList
+                this.publicid, this.firstname, this.lastname, this.email, this.age, this.country, this.state, this.city, this.gender, this.biography, getInterests(), this.friendList
         );
     }
 

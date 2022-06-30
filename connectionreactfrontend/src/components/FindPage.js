@@ -12,21 +12,22 @@ import SearchOptionsDrawer from './models/friends/SearchOptionsDrawer';
 class FindPage extends Component {
     constructor(props){
         super(props);
+        console.log(localStorage);
         this.state = {
             friends: [],
             index: 0,
 
-            scope: SCOPE.CITY,
-            mutualFriends: true,
-            similarInterests: true,
+            scope: SCOPE[localStorage.getItem('scope') || SCOPE.CITY.name],
+            mutualFriends: (localStorage.getItem('mutualFriends') || 'true') === 'true',
+            similarInterests: (localStorage.getItem('similarInterests') || 'true') === 'true',
+            sameSex: (localStorage.getItem('sameSex') || 'true') === 'true',
 
             open: false,
         }
     }
 
     async findFriends(){
-        FriendRequests.findFriendsWithSettings(this.state.scope, this.state.mutualFriends, this.state.similarInterests).then(res => {
-            console.log(res);
+        FriendRequests.findFriendsWithSettings(this.state.scope, this.state.mutualFriends, this.state.similarInterests, this.state.sameSex).then(res => {
             this.setState({friends: res});
         }).catch(err => console.log(err));
     }
@@ -49,8 +50,12 @@ class FindPage extends Component {
         })
     }
 
-    changeSearchOptions = (scope, mutualFriends, similarInterests) => {
-        this.setState({scope, mutualFriends, similarInterests}, this.findFriends);
+    changeSearchOptions = (scope, mutualFriends, similarInterests, sameSex) => {
+        this.setState({scope, mutualFriends, similarInterests, sameSex}, this.findFriends);
+        localStorage.setItem('scope', scope.name.toUpperCase());
+        localStorage.setItem('mutualFriends', mutualFriends);
+        localStorage.setItem('similarInterests', similarInterests);
+        localStorage.setItem('sameSex', sameSex);
         this.toggleOpen(false);
     }
 
@@ -68,7 +73,12 @@ class FindPage extends Component {
                 </Box>
                 <Divider />
                 <h1>We can't find any new friends for you right now. Sorry :/</h1>
-                <SearchOptionsDrawer open={this.state.open} toggleDrawer={this.toggleOpen} changeSearchOptions={this.changeSearchOptions}/>
+                <SearchOptionsDrawer 
+                    scope={this.state.scope}
+                    mutualFriends={this.state.mutualFriends}
+                    similarInterests={this.state.similarInterests}
+                    sameSex={this.state.sameSex}
+                    open={this.state.open} toggleDrawer={this.toggleOpen} changeSearchOptions={this.changeSearchOptions}/>
                 <Navbar value={'find'} />
             </div>)
       }
@@ -95,6 +105,7 @@ class FindPage extends Component {
                     country={friend.country}
                     state={friend.state}
                     city={friend.city}
+                    gender={friend.gender}
                     biography={friend.biography}
                     interests={friend.interests}
 
@@ -103,7 +114,12 @@ class FindPage extends Component {
 
                     friend={true}
                 />
-                <SearchOptionsDrawer open={this.state.open} toggleDrawer={this.toggleOpen} changeSearchOptions={this.changeSearchOptions}/>
+                <SearchOptionsDrawer 
+                    scope={this.state.scope}
+                    mutualFriends={this.state.mutualFriends}
+                    similarInterests={this.state.similarInterests}
+                    sameSex={this.state.sameSex}
+                    open={this.state.open} toggleDrawer={this.toggleOpen} changeSearchOptions={this.changeSearchOptions}/>
                 <Navbar value={'find'}/>
             </div>
         </>

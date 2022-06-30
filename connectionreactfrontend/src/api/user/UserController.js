@@ -4,7 +4,7 @@ import qs from 'qs';
 import axios from "axios";
 
 function convertToUserModel(res){
-    return new UserModel(res.public_id, res.firstname, res.lastname, res.password, res.email, res.age, res.country, res.state, res.city, res.biography, res.interests, res.friendIdList);
+    return new UserModel(res.public_id, res.firstname, res.lastname, res.password, res.email, res.age, res.country, res.state, res.city, res.gender, res.biography, res.interests, res.friendIdList);
 }
 
 //returns Promise<UserModel>

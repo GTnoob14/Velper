@@ -148,6 +148,7 @@ function ChatFriends(props) {
              country={props.friend.country}
              state={props.friend.state}
              city={props.friend.city}
+             gender={props.friend.gender}
              biography={props.friend.biography}
              interests={props.friend.interests}
 

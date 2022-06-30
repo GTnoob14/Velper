@@ -9,13 +9,18 @@ import lombok.*;
 @NoArgsConstructor
 public class SearchSettings {
     private int scope = 0;
+    //prefer friends of your friends
     private boolean mutualFriends = true;
+    //prefer people with similar interests
     private boolean similarInterests = true;
+    //prefer people with the same sex
+    private boolean sameSex = true;
 
-    public SearchSettings(int scope, boolean mutualFriends, boolean similarInterests){
+    public SearchSettings(int scope, boolean mutualFriends, boolean similarInterests, boolean sameSex){
         this.scope = scope;
         this.mutualFriends = mutualFriends;
         this.similarInterests = similarInterests;
+        this.sameSex = sameSex;
     }
 
     public Scope getScope() {

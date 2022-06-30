@@ -22,6 +22,7 @@ export default function SignupProcess(props) {
     country={props.country}
     state={props.state}
     city={props.city}
+    gender={props.gender}
 
     updateFirstName={props.updateFirstName}
     updateLastName={props.updateLastName}
@@ -31,6 +32,7 @@ export default function SignupProcess(props) {
     updateCountry={props.updateCountry}
     updateState={props.updateState}
     updateCity={props.updateCity}
+    updateGender={props.updateGender}
 
     countries={props.countries}
     states={props.states}

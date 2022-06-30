@@ -7,18 +7,23 @@ export default class SearchOptions extends Component {
     constructor(props){
         super(props);
         this.state = {
-            mfChecked: true,
-            siChecked: true,
-            scope: SCOPE.CITY,
+            mfChecked: props.mutualFriends,
+            siChecked: props.similarInterests,
+            ssChecked: props.sameSex,
+            scope: props.scope,
         }
     }
-
+    
     mfChange = () => {
         this.setState({mfChecked: !this.state.mfChecked});
     }
 
     siChange = () => {
         this.setState({siChecked: !this.state.siChecked});
+    }
+
+    ssChange = () => {
+      this.setState({ssChecked: !this.state.ssChecked});
     }
 
     scopeChange = (scope) => {
@@ -59,7 +64,14 @@ export default class SearchOptions extends Component {
             label='Look for similar Interests'
             labelPlacement='start'
           />
-          <Button variant="contained" onClick={() => this.props.submit(this.state.scope, this.state.mfChecked, this.state.siChecked)}>Submit</Button>
+          <FormControlLabel
+            control={
+              <Switch checked={this.state.ssChecked} onChange={this.ssChange} />
+            }
+            label='Look for same sex'
+            labelPlacement='start'
+          />
+          <Button variant="contained" onClick={() => this.props.submit(this.state.scope, this.state.mfChecked, this.state.siChecked, this.state.ssChecked)}>Search</Button>
         </FormControl>
       </div>
     )

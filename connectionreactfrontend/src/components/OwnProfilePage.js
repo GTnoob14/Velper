@@ -69,6 +69,7 @@ class _OwnProfilePage extends React.Component{
                                 country={model.country}
                                 state={model.state}
                                 city={model.city}
+                                gender={model.gender}
                                 biography={model.biography}
                                 interests={model.interests}
 

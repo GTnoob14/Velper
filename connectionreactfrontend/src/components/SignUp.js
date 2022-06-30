@@ -20,6 +20,7 @@ class Signup extends React.Component{
       country: {id: undefined, name: '', iso2: ''},
       state: {id: undefined, name: '', iso2: ''},
       city: {id: undefined, name: ''},
+      gender: '',
       confirmationToken: '',
       biography: '',
       interests: new Set(),
@@ -84,6 +85,9 @@ class Signup extends React.Component{
   updateCity = (_city) => {
     this.setState({city: _city});
   }
+  updateGender = (_gender) => {
+    this.setState({gender: _gender});
+  }
   updateConfirmationToken = (_confirmationToken) => {
     this.setState({confirmationToken: _confirmationToken});
   }
@@ -106,6 +110,7 @@ class Signup extends React.Component{
       this.state.country.iso2,
       this.state.state.name,
       this.state.city.name,
+      this.state.gender,
       this.state.biography,
       [...this.state.interests],
       null
@@ -136,7 +141,7 @@ class Signup extends React.Component{
 
   updateSignup = () => {
     const userModel = new UserModel(
-      null,
+      null,//=id
       null,//this.state.firstName,
       null,//this.state.lastName,
       null,//this.state.password,
@@ -145,6 +150,7 @@ class Signup extends React.Component{
       null,//this.state.country.iso2,
       null,//this.state.state.name,
       null,//this.state.city.name,
+      null,//this.state.gender
       this.state.biography,
       [...this.state.interests],
       null
@@ -173,6 +179,7 @@ class Signup extends React.Component{
           this.state.country.iso2,
           this.state.state.name,
           this.state.city.name,
+          this.state.gender,
           this.state.biography,
           [...this.state.interests],
           null
@@ -201,6 +208,7 @@ class Signup extends React.Component{
           country={this.state.country}
           state={this.state.state}
           city={this.state.city}
+          gender={this.state.gender}
 
           verificationCode={this.state.confirmationToken}
 
@@ -215,6 +223,7 @@ class Signup extends React.Component{
           updateCountry={this.updateCountry}
           updateState={this.updateState}
           updateCity={this.updateCity}
+          updateGender={this.updateGender}
 
           updateVerificationCode={this.updateConfirmationToken}
 

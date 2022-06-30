@@ -19,6 +19,7 @@ public class AppUserReturnable {
     private String country;
     private String state;
     private String city;
+    private Gender gender;
     private String biography;
     private Set<Interest> interests;
     private Set<String> friendIdList;

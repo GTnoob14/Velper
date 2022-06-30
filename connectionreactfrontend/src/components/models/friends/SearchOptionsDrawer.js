@@ -55,7 +55,13 @@ function SearchOptionsDrawer(props) {
             overflow: 'auto',
           }}
         >
-          <SearchOptions submit={props.changeSearchOptions} />
+          <SearchOptions 
+            scope={props.scope}
+            mutualFriends={props.mutualFriends}
+            similarInterests={props.similarInterests}
+            sameSex={props.sameSex}
+
+            submit={props.changeSearchOptions} />
         </StyledBox>
       </SwipeableDrawer>
   );

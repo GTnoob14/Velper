@@ -13,6 +13,7 @@ function convertToUsermodelList(data){
                 e.country,
                 e.state,
                 e.city,
+                e.gender,
                 e.biography,
                 e.interests,
                 null,
@@ -20,8 +21,8 @@ function convertToUsermodelList(data){
         });
 }
 
-async function findFriendsWithSettings(SCOPE, mutualFriends, similarInterests){
-    const data = await api.get('/user/friends/find', {params: {scope: SCOPE.enum, mutualFriends: mutualFriends, similarInterests: similarInterests}});
+async function findFriendsWithSettings(SCOPE, mutualFriends, similarInterests, sameSex){
+    const data = await api.get('/user/friends/find', {params: {scope: SCOPE.enum, mutualFriends: mutualFriends, similarInterests: similarInterests, sameSex: sameSex}});
     const friends = convertToUsermodelList(data);
     return friends;
 }

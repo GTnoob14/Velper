@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import React from 'react'
 import CitySelect from '../../_partials/selection/CitySelection';
 import CountrySelect from '../../_partials/selection/CountrySelection';
@@ -84,6 +84,21 @@ const IdentificationProcess = (props) => {
         
           cities={props.cities}
       />
+      {/** TODO finish Gender Settings in Signup Process */}
+      <FormControl style={textFieldStyle} sx={{minWidth: 220}}>
+        <InputLabel id="gender">Gender</InputLabel>
+        <Select
+            labelId='gender'
+            value={props.gender}
+            defaultValue={'male'}
+            label='Gender'
+            onChange={(event) => props.updateGender(event.target.value)}
+        >
+            <MenuItem key={'male'} value={'male'}>Male</MenuItem>
+            <MenuItem key={'female'} value={'female'}>Female</MenuItem>
+            <MenuItem key={'diverse'} value={'diverse'}>Diverse</MenuItem>
+        </Select>
+      </FormControl>
       </div>
   )
 }

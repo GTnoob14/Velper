@@ -10,7 +10,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,7 +25,7 @@ public class FriendService {
     @Autowired
     private final AppUserService appUserService;
 
-    public List<AppUser> findPotentialFriends(AppUser user, SearchSettings searchSettings) {
+    public Set<AppUser> findPotentialFriends(AppUser user, SearchSettings searchSettings) {
         //TODO find all people with same country/city/state, then sort by distance, then look for mutual friends, then look for similar interests
         List<AppUser> potentialFriends;
         switch(searchSettings.getScope()){
@@ -59,6 +61,8 @@ public class FriendService {
                 throw new IllegalArgumentException(String.format("Scope %s is not defined!", searchSettings.getScope().toString()));
         }
 
+        Collections.shuffle(potentialFriends);
+
         if(searchSettings.isMutualFriends()){
             //TODO: find and prefer mutual friends
         }
@@ -69,8 +73,13 @@ public class FriendService {
                 .sorted((f1, f2) -> Boolean.compare(f2.getFriendList().contains(user.getPublicid()), f1.getFriendList().contains(user.getPublicid()))) //put people who added you first
                 .collect(Collectors.toList());
 
+        if(searchSettings.isSameSex()) {
+            potentialFriends = potentialFriends.stream()
+                    .filter(friend -> user.getGender().equals(friend.getGender()))
+                    .collect(Collectors.toList());
+        }
 
-        return potentialFriends;
+        return potentialFriends.stream().collect(Collectors.toSet());
     }
 
     public List<AppUser> getFriends(AppUser user) {
@@ -78,7 +87,8 @@ public class FriendService {
 //        return appUserService.findUser(id)
                 .getFriendList()
                 .stream().map(friend -> appUserRepository.findByPublicid(friend)
-                        .orElseThrow(() -> new UsernameNotFoundException(String.format("Friend %s does not exist!", friend))))
+                        .orElseThrow(() -> new UsernameNotFoundException(String.format("Friend %s does not exist!", friend)))
+                ).filter(friend -> friend.getFriendList().contains(user.getPublicid()))
                 .collect(Collectors.toList());
     }
 

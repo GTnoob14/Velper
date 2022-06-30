@@ -32,6 +32,7 @@ class CUpdateOwnProfilePage extends React.Component{
       country: {id: null, name: '', iso2: ''},
       state: {id: null, name: '', iso2: ''},
       city: {id: null, name: ''},
+      gender: '',
       //confirmationToken: '',
       biography: '',
       interests: new Set(),
@@ -67,6 +68,7 @@ class CUpdateOwnProfilePage extends React.Component{
                 country: user_country,
                 state: user_state,
                 city: user_city,
+                gender: user.gender,
                 confirmationToken: user.confirmationToken,
                 biography: user.biography,
                 interests: user.interests.map(interest => interest.interest),
@@ -129,6 +131,9 @@ class CUpdateOwnProfilePage extends React.Component{
   updateCity = (_city) => {
     this.setState({city: _city});
   }
+  updateGender = (_gender) => {
+    this.setState({gender: _gender});
+  }
   updateBiography = (_biography) => {
     this.setState({biography: _biography});
   }
@@ -147,6 +152,7 @@ class CUpdateOwnProfilePage extends React.Component{
       this.state.country.iso2,
       this.state.state.name,
       this.state.city.name,
+      this.state.gender,
       this.state.biography,
       [...this.state.interests],
       null
@@ -193,7 +199,8 @@ class CUpdateOwnProfilePage extends React.Component{
               country={this.state.country}
               state={this.state.state}
               city={this.state.city}
-
+              gender={this.state.gender}
+               
               biography={this.state.biography}
               interests={this.state.interests}
 
@@ -205,6 +212,7 @@ class CUpdateOwnProfilePage extends React.Component{
               updateCountry={this.updateCountry}
               updateState={this.updateState}
               updateCity={this.updateCity}
+              updateGender={this.updateGender}
 
               updateBiography={this.updateBiography}
               updateInterests={this.updateInterests}

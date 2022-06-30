@@ -66,6 +66,7 @@ public class AppUserService implements UserDetailsService {
                 resourceAppUser.getCountry(),
                 resourceAppUser.getState(),
                 resourceAppUser.getCity(),
+                resourceAppUser.getGender(),
                 resourceAppUser.getBiography(),
                 resourceAppUser.getInterests() == null ? null : resourceAppUser.getInterests().stream().map(i -> interestService.findInterestByName(i).orElseGet(() -> interestService.addInterest(i))).collect(Collectors.toSet())
         ));
@@ -92,6 +93,8 @@ public class AppUserService implements UserDetailsService {
             user.setState(resourceAppUser.getState());
         if(resourceAppUser.getCity() != null)
             user.setCity(resourceAppUser.getCity());
+        if(resourceAppUser.getGender() != null)
+            user.setGender(resourceAppUser.getGender());
         if(resourceAppUser.getBiography() != null)
             user.setBiography(resourceAppUser.getBiography());
         if(resourceAppUser.getInterests() != null)
