@@ -157,7 +157,8 @@ public class AppUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        //return true;
-        return enabled;
+        //NOTE: Temporarily Disabled the E-Mail Comfirmation Feature, for demonstration purposes
+        return true;
+        //return enabled;
     }
 }

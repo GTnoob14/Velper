@@ -156,7 +156,7 @@ class Signup extends React.Component{
       null
     );
     UserRequests.updateUser(userModel).then(() => {
-      window.location.href = '/';
+      window.location.href = '/find';
     }).catch(err => {
       console.log(err);
     })

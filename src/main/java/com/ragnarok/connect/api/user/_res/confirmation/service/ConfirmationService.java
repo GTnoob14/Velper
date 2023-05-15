@@ -23,14 +23,18 @@ public class ConfirmationService {
     private final AppUserRepository appUserRepository;
 
     public void confirmToken(String email, String token) throws ConfirmationCodeMismatchException, ConfirmationCodeNotFoundException {
-        ConfirmationToken confirmationToken = confirmationRepository.findByToken(token).orElseThrow(() -> new ConfirmationCodeNotFoundException(token));
-        if(!confirmationToken.getAppUser().getUsername().equals(email)){
-            throw new ConfirmationCodeMismatchException(String.format("%s isn't code of %s", token, email));
-        }
-        confirmationRepository.delete(confirmationToken);
-        AppUser appUser = appUserRepository.findByEmail(email).get();
-        appUser.setEnabled(true);
-        appUserRepository.save(appUser);
+
+        return;
+
+        //NOTE: Temporarily Disabled the E-Mail Comfirmation Feature, for demonstration purposes
+//        ConfirmationToken confirmationToken = confirmationRepository.findByToken(token).orElseThrow(() -> new ConfirmationCodeNotFoundException(token));
+//        if(!confirmationToken.getAppUser().getUsername().equals(email)){
+//            throw new ConfirmationCodeMismatchException(String.format("%s isn't code of %s", token, email));
+//        }
+//        confirmationRepository.delete(confirmationToken);
+//        AppUser appUser = appUserRepository.findByEmail(email).get();
+//        appUser.setEnabled(true);
+//        appUserRepository.save(appUser);
     }
 
     public ConfirmationToken saveConfirmationToken(AppUser appUser){
